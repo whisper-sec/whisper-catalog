@@ -32,17 +32,19 @@ const errors = [];
 const WRITE_VERBS = ['whisper.submit'];
 const CONTROL_VERBS = ['whisper.agents'];
 
-// Forbidden tokens: secrets, internal infra, and AI attribution (public-repo hygiene).
+// Public-repo hygiene: GENERIC leak patterns only. We deliberately do NOT
+// enumerate the specific internal hostnames, backend module names, or vendor
+// terms here, because spelling them out in a public file discloses the very
+// things this check exists to keep out. The specific-token scan runs in the
+// private pre-publish pipeline; this public gate catches the generic shapes.
 const FORBIDDEN = [
-  /whisper_live_/i, /whisper_test_/i, /\bet_[a-z0-9]/i,           // minted / test keys
-  /\buserId\b/, /user_[0-9a-z]{6}/i,                              // tenant identifiers
-  /100\.(6[4-9]|[7-9][0-9]|1[01][0-9]|12[0-7])\.\d+\.\d+/,       // tailnet 100.64/10
-  /:8080/, /actuator/i,                                          // actuator surface
-  /\bgibbon\b/i, /internal-host/i, /internal-host/i,                      // internal hosts
-  /ns[12]\.whisper\.online/i, /\/opt\/whisper-ns/i,              // box / deploy paths
-  /backend/i, /backend/i,                      // proprietary backend
-  /co-authored-by:\s*redacted/i, /\banthropic\b/i,                 // AI attribution
-  /generated with redacted/i, /\bclaude\b/i, /\bopus\b/i, /\bsonnet\b/i,
+  /-----BEGIN (?:RSA |OPENSSH |EC |DSA )?PRIVATE KEY-----/,      // any private key
+  /\b[a-z][a-z0-9]{2,}_live_[A-Za-z0-9_-]{16,}/i,               // a minted live key
+  /\b[a-z]{2,4}_[a-f0-9]{24,}\b/i,                              // a generic minted token
+  /\buserId\b/, /\buser_[0-9a-z]{6,}/i,                         // tenant identifiers
+  /100\.(6[4-9]|[7-9][0-9]|1[01][0-9]|12[0-7])\.\d+\.\d+/,      // RFC 6598 shared range
+  /:8080\b/, /\/actuator\b/i,                                  // ops surfaces
+  /co-authored-by:/i,                                          // any authorship trailer
 ];
 
 if (catalog.schemaVersion !== 1) errors.push(`schemaVersion must be 1, got ${catalog.schemaVersion}`);
