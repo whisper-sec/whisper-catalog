@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://whisper.security/catalog.schema.json",
+  "title": "Whisper Query Catalog Entry",
+  "description": "A portable, provenance-backed descriptor for one whisper.security graph query or read flow.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "title", "purpose", "category", "tags", "inputs", "params", "exec", "access", "playgroundTryable", "minTier", "resultShape", "columns", "prompt", "provenance", "version"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+    "title": { "type": "string", "minLength": 1 },
+    "purpose": { "type": "string", "minLength": 1 },
+    "why": { "type": "string" },
+    "category": { "type": "string" },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "kind", "paramName"],
+        "properties": {
+          "id": { "type": "string" },
+          "kind": { "type": "string", "enum": ["any", "domain", "hostname", "ipv4", "ipv6", "asn", "prefix", "select", "number", "string"] },
+          "paramName": { "type": "string" },
+          "default": {},
+          "examples": { "type": "array" },
+          "options": { "type": "array" }
+        }
+      }
+    },
+    "params": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "kind"],
+        "properties": {
+          "name": { "type": "string" },
+          "kind": { "type": "string", "enum": ["select", "number", "string", "boolean"] },
+          "default": {},
+          "options": { "type": "array" }
+        }
+      }
+    },
+    "exec": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode"],
+      "properties": {
+        "mode": { "type": "string", "enum": ["direct", "flow"] },
+        "cypher": { "type": "string" },
+        "params": { "type": "object" },
+        "minSchema": { "type": "integer" },
+        "anchorStepId": { "type": "string" },
+        "runVia": { "type": "string" },
+        "altForm": { "type": "string" },
+        "note": { "type": "string" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "mode": { "const": "direct" } } },
+          "then": { "required": ["cypher"] }
+        },
+        {
+          "if": { "properties": { "mode": { "const": "flow" } } },
+          "then": { "required": ["runVia", "anchorStepId"] }
+        }
+      ]
+    },
+    "access": { "type": "string", "enum": ["keyed"], "description": "Always keyed: it is Cypher, and Cypher needs an API key. The genuine keyless half of Whisper is the non-Cypher identity ops (verify/rdap), which are not in this catalog." },
+    "playgroundTryable": { "type": "boolean", "description": "true only for single-request direct READ verbs that can be sampled keyless in the rate-limited playground (100/window). false for the write (submit) and every multi-step flow (impractical keyless)." },
+    "minTier": { "type": "string", "enum": ["free", "pro", "enterprise"] },
+    "resultShape": { "type": "string" },
+    "columns": { "type": "array", "items": { "type": "string" } },
+    "prompt": { "type": "string", "minLength": 1 },
+    "provenance": { "const": true },
+    "version": { "type": "string" }
+  }
+}

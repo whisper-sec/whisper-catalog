@@ -1,0 +1,737 @@
+{
+  "generatedAt": "2026-07-14T08:52:56Z",
+  "endpoint": "https://graph.whisper.security/api/query",
+  "auth": "API key required for all queries (X-API-Key)",
+  "methods": [
+    {
+      "method": "anycastDnsRootSovereignty",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": false,
+      "mode": "flow",
+      "params": [
+        {
+          "name": "country",
+          "kind": "any",
+          "required": false,
+          "default": "BR"
+        }
+      ],
+      "cypher": null,
+      "runVia": "run_workflow (anycast-dns-root-sovereignty)",
+      "returns": [
+        "distinctLetters",
+        "totalInstances",
+        "globalCount",
+        "localCount",
+        "hostingAsns"
+      ],
+      "summary": "Assess how resilient a country's core DNS is if it were cut off from the world."
+    },
+    {
+      "method": "attackPath",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": false,
+      "mode": "flow",
+      "params": [
+        {
+          "name": "value",
+          "kind": "hostname",
+          "required": false,
+          "default": "paypal.com"
+        },
+        {
+          "name": "other",
+          "kind": "hostname",
+          "required": false,
+          "default": "paypa1.com"
+        }
+      ],
+      "cypher": null,
+      "runVia": "run_workflow (attack-path)",
+      "returns": [
+        "indicator",
+        "type",
+        "available",
+        "cached",
+        "found",
+        "score",
+        "level",
+        "explanation",
+        "factors",
+        "sources",
+        "advisory"
+      ],
+      "summary": "Find the choke points an attacker would target - and how any two things connect."
+    },
+    {
+      "method": "attackSurface",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": false,
+      "mode": "flow",
+      "params": [
+        {
+          "name": "domain",
+          "kind": "domain",
+          "required": false,
+          "default": "github.com"
+        }
+      ],
+      "cypher": null,
+      "runVia": "run_workflow (attack-surface)",
+      "returns": [
+        "indicator",
+        "type",
+        "available",
+        "cached",
+        "found",
+        "score",
+        "level",
+        "explanation",
+        "factors",
+        "sources",
+        "advisory"
+      ],
+      "summary": "Map everything about a domain that's exposed to the outside world, scored for risk."
+    },
+    {
+      "method": "bgpHijackExposure",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": false,
+      "mode": "flow",
+      "params": [
+        {
+          "name": "value",
+          "kind": "asn",
+          "required": false,
+          "default": "AS13335"
+        }
+      ],
+      "cypher": null,
+      "runVia": "run_workflow (bgp-hijack-exposure)",
+      "returns": [
+        "prefix",
+        "is_moas",
+        "conflicting_asn"
+      ],
+      "summary": "Grade a network's routing security and trace conflicts to the domains they'd expose."
+    },
+    {
+      "method": "blastRadius",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": false,
+      "mode": "flow",
+      "params": [
+        {
+          "name": "indicator",
+          "kind": "any",
+          "required": false,
+          "default": "ns1.dreamhost.com"
+        }
+      ],
+      "cypher": null,
+      "runVia": "run_workflow (blast-radius)",
+      "returns": [
+        "labels",
+        "name"
+      ],
+      "summary": "Pick one asset and see what would break if it failed - and what it depends on in turn."
+    },
+    {
+      "method": "buildTakedownEvidencePackage",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": false,
+      "mode": "flow",
+      "params": [
+        {
+          "name": "domain",
+          "kind": "domain",
+          "required": false,
+          "default": "ickaoex.com"
+        }
+      ],
+      "cypher": null,
+      "runVia": "run_workflow (build-takedown-evidence-package)",
+      "returns": [
+        "indicator",
+        "type",
+        "available",
+        "cached",
+        "found",
+        "score",
+        "level",
+        "explanation",
+        "factors",
+        "sources",
+        "advisory"
+      ],
+      "summary": "Assemble a ready-to-submit dossier for taking down a scam or phishing domain."
+    },
+    {
+      "method": "discoverAiAgentInfrastructure",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": false,
+      "mode": "flow",
+      "params": [
+        {
+          "name": "value",
+          "kind": "domain",
+          "required": false,
+          "default": "github.com"
+        }
+      ],
+      "cypher": null,
+      "runVia": "run_workflow (discover-ai-agent-infrastructure)",
+      "returns": [
+        "hostname",
+        "ips"
+      ],
+      "summary": "Map an organisation's externally visible AI and agent endpoints from the outside."
+    },
+    {
+      "method": "indicator",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": false,
+      "mode": "flow",
+      "params": [
+        {
+          "name": "indicator",
+          "kind": "any",
+          "required": false,
+          "default": "theblackservicenetwork.com"
+        }
+      ],
+      "cypher": null,
+      "runVia": "run_workflow (indicator)",
+      "returns": [
+        "host",
+        "label",
+        "band",
+        "sub_labels",
+        "coverage",
+        "evidence"
+      ],
+      "summary": "Investigate one suspicious domain, IP, or network in depth and get a clear picture of the threat and everything connected to it."
+    },
+    {
+      "method": "indicatorEnrichment",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": false,
+      "mode": "flow",
+      "params": [
+        {
+          "name": "value",
+          "kind": "any",
+          "required": false,
+          "default": "google.com"
+        }
+      ],
+      "cypher": null,
+      "runVia": "run_workflow (indicator-enrichment)",
+      "returns": [
+        "attribute",
+        "value"
+      ],
+      "summary": "Turn one domain or IP into a full context card - owner, hosting, mail, location, reputation at a glance."
+    },
+    {
+      "method": "infrastructureMapping",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": false,
+      "mode": "flow",
+      "params": [
+        {
+          "name": "value",
+          "kind": "any",
+          "required": false,
+          "default": "cloudflare.com"
+        }
+      ],
+      "cypher": null,
+      "runVia": "run_workflow (infrastructure-mapping)",
+      "returns": [
+        "canonical_name",
+        "vendor_id",
+        "category",
+        "roles",
+        "host_class"
+      ],
+      "summary": "Trace one indicator to its true owner and full estate, even behind privacy screens and CDNs."
+    },
+    {
+      "method": "mapSupplyChainConcentration",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": false,
+      "mode": "flow",
+      "params": [
+        {
+          "name": "domain",
+          "kind": "domain",
+          "required": false,
+          "default": "atlassian.com"
+        }
+      ],
+      "cypher": null,
+      "runVia": "run_workflow (map-supply-chain-concentration)",
+      "returns": [
+        "provider",
+        "asn",
+        "region",
+        "country"
+      ],
+      "summary": "Grade an organisation for over-reliance on single providers, regions, or facilities."
+    },
+    {
+      "method": "nameserverHijackDnsConsistency",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": false,
+      "mode": "flow",
+      "params": [
+        {
+          "name": "value",
+          "kind": "domain",
+          "required": false,
+          "default": "google.com"
+        }
+      ],
+      "cypher": null,
+      "runVia": "run_workflow (nameserver-hijack-dns-consistency)",
+      "returns": [
+        "nameserver",
+        "ips",
+        "status"
+      ],
+      "summary": "Check a domain's name servers for the misconfigurations that enable DNS hijacking."
+    },
+    {
+      "method": "routeHealth",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": false,
+      "mode": "flow",
+      "params": [
+        {
+          "name": "target",
+          "kind": "any",
+          "required": false,
+          "default": "1.1.1.0/24"
+        }
+      ],
+      "cypher": null,
+      "runVia": "run_workflow (route-health)",
+      "returns": [
+        "prefix",
+        "multi_origin",
+        "anycast",
+        "withdrawn"
+      ],
+      "summary": "Profile a network or address block into a full routing and reachability health card."
+    },
+    {
+      "method": "subdomainTakeover",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": false,
+      "mode": "flow",
+      "params": [
+        {
+          "name": "value",
+          "kind": "domain",
+          "required": false,
+          "default": "github.com"
+        }
+      ],
+      "cypher": null,
+      "runVia": "run_workflow (subdomain-takeover)",
+      "returns": [
+        "subdomain",
+        "ips"
+      ],
+      "summary": "Find subdomains that point at abandoned services an attacker could claim."
+    },
+    {
+      "method": "typosquat",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": false,
+      "mode": "flow",
+      "params": [
+        {
+          "name": "domain",
+          "kind": "domain",
+          "required": false,
+          "default": "paypal.com"
+        }
+      ],
+      "cypher": null,
+      "runVia": "run_workflow (typosquat)",
+      "returns": [
+        "variant",
+        "method",
+        "confidence"
+      ],
+      "summary": "Find registered look-alikes of your brand and check which ones are dangerous."
+    },
+    {
+      "method": "identify",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": true,
+      "mode": "direct",
+      "params": [
+        {
+          "name": "v",
+          "kind": "any",
+          "required": false,
+          "default": "api.openai.com"
+        }
+      ],
+      "cypher": "CALL whisper.identify([$v]) YIELD host, vendor_id, canonical_name, category, roles, host_class, band",
+      "runVia": null,
+      "returns": [
+        "host",
+        "vendor_id",
+        "canonical_name",
+        "category",
+        "roles",
+        "host_class",
+        "band"
+      ],
+      "summary": "Name the vendor and operator role behind a host or IP in one call."
+    },
+    {
+      "method": "assess",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": true,
+      "mode": "direct",
+      "params": [
+        {
+          "name": "v",
+          "kind": "any",
+          "required": false,
+          "default": "8.8.8.8"
+        }
+      ],
+      "cypher": "CALL whisper.assess([$v]) YIELD host, label, band, sub_labels, coverage, evidence",
+      "runVia": null,
+      "returns": [
+        "host",
+        "label",
+        "band",
+        "sub_labels",
+        "coverage",
+        "evidence"
+      ],
+      "summary": "Get a labelled threat posture for a host or IP - malicious, benign, or unknown."
+    },
+    {
+      "method": "variants",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": true,
+      "mode": "direct",
+      "params": [
+        {
+          "name": "v",
+          "kind": "domain",
+          "required": false,
+          "default": "paypal.com"
+        }
+      ],
+      "cypher": "CALL whisper.variants($v) YIELD variant, method, exists, confidence",
+      "runVia": null,
+      "returns": [
+        "variant",
+        "method",
+        "exists",
+        "confidence"
+      ],
+      "summary": "Generate look-alike domain variants of a brand and see which are registered."
+    },
+    {
+      "method": "walk",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": true,
+      "mode": "direct",
+      "params": [
+        {
+          "name": "v",
+          "kind": "any",
+          "required": false,
+          "default": "cloudflare.com"
+        }
+      ],
+      "cypher": "CALL whisper.walk($v) YIELD coverage, host, nearest_known_vendors, no_atlas_match, siblings",
+      "runVia": null,
+      "returns": [
+        "coverage",
+        "host",
+        "nearest_known_vendors",
+        "no_atlas_match",
+        "siblings"
+      ],
+      "summary": "Walk the graph to the nearest known vendors behind a host, with the channel and confidence."
+    },
+    {
+      "method": "explain",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": true,
+      "mode": "direct",
+      "params": [
+        {
+          "name": "v",
+          "kind": "any",
+          "required": false,
+          "default": "paypal.com"
+        }
+      ],
+      "cypher": "CALL whisper.explain($v) YIELD indicator, score, level, explanation, sources",
+      "runVia": null,
+      "returns": [
+        "indicator",
+        "score",
+        "level",
+        "explanation",
+        "sources"
+      ],
+      "summary": "Score an indicator against the threat feeds and explain exactly why."
+    },
+    {
+      "method": "pslTldplusone",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": true,
+      "mode": "direct",
+      "params": [
+        {
+          "name": "v",
+          "kind": "hostname",
+          "required": false,
+          "default": "www.foo.co.uk"
+        }
+      ],
+      "cypher": "CALL whisper.psl.tldPlusOne($v) YIELD apex",
+      "runVia": null,
+      "returns": [
+        "apex"
+      ],
+      "summary": "Reduce any hostname to its registrable apex (eTLD+1) via the Public Suffix List."
+    },
+    {
+      "method": "pslAffiliation",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": true,
+      "mode": "direct",
+      "params": [
+        {
+          "name": "v",
+          "kind": "domain",
+          "required": false,
+          "default": "paypal.com"
+        }
+      ],
+      "cypher": "CALL whisper.psl.affiliation($v) YIELD found, suffix, submitterOrg, submitterLogin, evidenceKind, confidence",
+      "runVia": null,
+      "returns": [
+        "found",
+        "suffix",
+        "submitterOrg",
+        "submitterLogin",
+        "evidenceKind",
+        "confidence"
+      ],
+      "summary": "Check whether a domain is a PSL private-section suffix and who submitted it."
+    },
+    {
+      "method": "origins",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": true,
+      "mode": "direct",
+      "params": [
+        {
+          "name": "v",
+          "kind": "domain",
+          "required": false,
+          "default": "cloudflare.com"
+        }
+      ],
+      "cypher": "CALL whisper.origins($v) YIELD ip, confidence, methods, asn, asnName, kind",
+      "runVia": null,
+      "returns": [
+        "ip",
+        "confidence",
+        "methods",
+        "asn",
+        "asnName",
+        "kind"
+      ],
+      "summary": "Find the real origin IPs behind a CDN-fronted domain, ranked by confidence."
+    },
+    {
+      "method": "history",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": true,
+      "mode": "direct",
+      "params": [
+        {
+          "name": "v",
+          "kind": "domain",
+          "required": false,
+          "default": "paypal.com"
+        }
+      ],
+      "cypher": "CALL whisper.history($v)",
+      "runVia": null,
+      "returns": [
+        "indicator",
+        "type",
+        "queryTime",
+        "createDate",
+        "updateDate",
+        "expiryDate",
+        "registrar",
+        "registrant",
+        "country",
+        "nameServers",
+        "cached"
+      ],
+      "summary": "Get the full historical WHOIS timeline for a domain."
+    },
+    {
+      "method": "historyWhois",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": true,
+      "mode": "direct",
+      "params": [
+        {
+          "name": "v",
+          "kind": "domain",
+          "required": false,
+          "default": "paypal.com"
+        }
+      ],
+      "cypher": "CALL whisper.history.whois($v) YIELD queryTime, createDate, updateDate, expiryDate, registrar, registrant, country, nameServers",
+      "runVia": null,
+      "returns": [
+        "queryTime",
+        "createDate",
+        "updateDate",
+        "expiryDate",
+        "registrar",
+        "registrant",
+        "country",
+        "nameServers"
+      ],
+      "summary": "Get the WHOIS-only historical timeline for a domain."
+    },
+    {
+      "method": "asset",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": true,
+      "mode": "direct",
+      "params": [
+        {
+          "name": "v",
+          "kind": "any",
+          "required": false,
+          "default": "AS-CLOUDFLARE"
+        }
+      ],
+      "cypher": "CALL whisper.asSet($v) YIELD asSetName, memberAsn, sourceRir",
+      "runVia": null,
+      "returns": [
+        "asSetName",
+        "memberAsn",
+        "sourceRir"
+      ],
+      "summary": "List the member ASNs of an AS-SET macro."
+    },
+    {
+      "method": "lookupTorRelay",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": true,
+      "mode": "direct",
+      "params": [
+        {
+          "name": "v",
+          "kind": "ipv4",
+          "required": false,
+          "default": "185.220.101.33"
+        }
+      ],
+      "cypher": "CALL whisper.lookupTorRelay($v) YIELD indicator, found, fingerprint, exitAddressCount, source, ingestedAt",
+      "runVia": null,
+      "returns": [
+        "indicator",
+        "found",
+        "fingerprint",
+        "exitAddressCount",
+        "source",
+        "ingestedAt"
+      ],
+      "summary": "Check whether an IP is a known Tor exit relay."
+    },
+    {
+      "method": "dbSchema",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": true,
+      "mode": "direct",
+      "params": [],
+      "cypher": "CALL db.schema()",
+      "runVia": null,
+      "returns": [
+        "type",
+        "name",
+        "count",
+        "description",
+        "example",
+        "sourceLabels",
+        "targetLabels",
+        "fastPatterns",
+        "slowPatterns",
+        "bestPractices"
+      ],
+      "summary": "List every node and relationship type in the graph with counts and examples."
+    },
+    {
+      "method": "submit",
+      "access": "keyed",
+      "requiresKey": true,
+      "playgroundTryable": false,
+      "mode": "direct",
+      "params": [
+        {
+          "name": "kind",
+          "kind": "select",
+          "required": false,
+          "default": "indicator"
+        }
+      ],
+      "cypher": "CALL whisper.submit({kind:$kind, /* + indicator/feedback fields */})",
+      "runVia": null,
+      "returns": [],
+      "summary": "Contribute an indicator observation or feedback back into the graph (requires an API key)."
+    }
+  ]
+}
