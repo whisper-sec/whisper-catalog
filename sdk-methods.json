@@ -1,7 +1,20 @@
 {
-  "generatedAt": "2026-07-14T08:52:56Z",
+  "generatedAt": "2026-07-14T12:17:30Z",
   "endpoint": "https://graph.whisper.security/api/query",
   "auth": "API key required for all queries (X-API-Key)",
+  "docsBase": "https://www.whisper.security",
+  "flowRun": {
+    "endpoint": "https://console.whisper.security/api/gallery/run",
+    "method": "POST",
+    "auth": "X-API-Key",
+    "bodyShape": {
+      "slug": "<flow id>",
+      "inputs": "{}",
+      "params": "{}"
+    },
+    "transport": "SSE",
+    "note": "Runs a catalog flow by its id. Keyed only."
+  },
   "methods": [
     {
       "method": "anycastDnsRootSovereignty",
@@ -19,6 +32,18 @@
       ],
       "cypher": null,
       "runVia": "run_workflow (anycast-dns-root-sovereignty)",
+      "flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "anycast-dns-root-sovereignty",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      },
       "returns": [
         "distinctLetters",
         "totalInstances",
@@ -26,7 +51,9 @@
         "localCount",
         "hostingAsns"
       ],
-      "summary": "Assess how resilient a country's core DNS is if it were cut off from the world."
+      "summary": "Assess how resilient a country's core DNS is if it were cut off from the world.",
+      "docPath": "/docs/recipes/compliance",
+      "docsUrl": "https://www.whisper.security/docs/recipes/compliance"
     },
     {
       "method": "attackPath",
@@ -50,6 +77,18 @@
       ],
       "cypher": null,
       "runVia": "run_workflow (attack-path)",
+      "flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "attack-path",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      },
       "returns": [
         "indicator",
         "type",
@@ -63,7 +102,9 @@
         "sources",
         "advisory"
       ],
-      "summary": "Find the choke points an attacker would target - and how any two things connect."
+      "summary": "Find the choke points an attacker would target - and how any two things connect.",
+      "docPath": "/docs/recipes/attack-path",
+      "docsUrl": "https://www.whisper.security/docs/recipes/attack-path"
     },
     {
       "method": "attackSurface",
@@ -81,6 +122,18 @@
       ],
       "cypher": null,
       "runVia": "run_workflow (attack-surface)",
+      "flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "attack-surface",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      },
       "returns": [
         "indicator",
         "type",
@@ -94,7 +147,9 @@
         "sources",
         "advisory"
       ],
-      "summary": "Map everything about a domain that's exposed to the outside world, scored for risk."
+      "summary": "Map everything about a domain that's exposed to the outside world, scored for risk.",
+      "docPath": "/docs/recipes/pentest-recon",
+      "docsUrl": "https://www.whisper.security/docs/recipes/pentest-recon"
     },
     {
       "method": "bgpHijackExposure",
@@ -112,12 +167,26 @@
       ],
       "cypher": null,
       "runVia": "run_workflow (bgp-hijack-exposure)",
+      "flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "bgp-hijack-exposure",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      },
       "returns": [
         "prefix",
         "is_moas",
         "conflicting_asn"
       ],
-      "summary": "Grade a network's routing security and trace conflicts to the domains they'd expose."
+      "summary": "Grade a network's routing security and trace conflicts to the domains they'd expose.",
+      "docPath": "/docs/recipes/bgp-routing",
+      "docsUrl": "https://www.whisper.security/docs/recipes/bgp-routing"
     },
     {
       "method": "blastRadius",
@@ -135,11 +204,25 @@
       ],
       "cypher": null,
       "runVia": "run_workflow (blast-radius)",
+      "flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "blast-radius",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      },
       "returns": [
         "labels",
         "name"
       ],
-      "summary": "Pick one asset and see what would break if it failed - and what it depends on in turn."
+      "summary": "Pick one asset and see what would break if it failed - and what it depends on in turn.",
+      "docPath": "/docs/recipes/soc",
+      "docsUrl": "https://www.whisper.security/docs/recipes/soc"
     },
     {
       "method": "buildTakedownEvidencePackage",
@@ -157,6 +240,18 @@
       ],
       "cypher": null,
       "runVia": "run_workflow (build-takedown-evidence-package)",
+      "flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "build-takedown-evidence-package",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      },
       "returns": [
         "indicator",
         "type",
@@ -170,7 +265,9 @@
         "sources",
         "advisory"
       ],
-      "summary": "Assemble a ready-to-submit dossier for taking down a scam or phishing domain."
+      "summary": "Assemble a ready-to-submit dossier for taking down a scam or phishing domain.",
+      "docPath": "/docs/recipes/threat-intel",
+      "docsUrl": "https://www.whisper.security/docs/recipes/threat-intel"
     },
     {
       "method": "discoverAiAgentInfrastructure",
@@ -188,11 +285,25 @@
       ],
       "cypher": null,
       "runVia": "run_workflow (discover-ai-agent-infrastructure)",
+      "flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "discover-ai-agent-infrastructure",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      },
       "returns": [
         "hostname",
         "ips"
       ],
-      "summary": "Map an organisation's externally visible AI and agent endpoints from the outside."
+      "summary": "Map an organisation's externally visible AI and agent endpoints from the outside.",
+      "docPath": "/docs/recipes/pentest-recon",
+      "docsUrl": "https://www.whisper.security/docs/recipes/pentest-recon"
     },
     {
       "method": "indicator",
@@ -210,6 +321,18 @@
       ],
       "cypher": null,
       "runVia": "run_workflow (indicator)",
+      "flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "indicator",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      },
       "returns": [
         "host",
         "label",
@@ -218,7 +341,9 @@
         "coverage",
         "evidence"
       ],
-      "summary": "Investigate one suspicious domain, IP, or network in depth and get a clear picture of the threat and everything connected to it."
+      "summary": "Investigate one suspicious domain, IP, or network in depth and get a clear picture of the threat and everything connected to it.",
+      "docPath": "/docs/recipes/soc",
+      "docsUrl": "https://www.whisper.security/docs/recipes/soc"
     },
     {
       "method": "indicatorEnrichment",
@@ -236,11 +361,25 @@
       ],
       "cypher": null,
       "runVia": "run_workflow (indicator-enrichment)",
+      "flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "indicator-enrichment",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      },
       "returns": [
         "attribute",
         "value"
       ],
-      "summary": "Turn one domain or IP into a full context card - owner, hosting, mail, location, reputation at a glance."
+      "summary": "Turn one domain or IP into a full context card - owner, hosting, mail, location, reputation at a glance.",
+      "docPath": "/docs/recipes/dns-email",
+      "docsUrl": "https://www.whisper.security/docs/recipes/dns-email"
     },
     {
       "method": "infrastructureMapping",
@@ -258,6 +397,18 @@
       ],
       "cypher": null,
       "runVia": "run_workflow (infrastructure-mapping)",
+      "flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "infrastructure-mapping",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      },
       "returns": [
         "canonical_name",
         "vendor_id",
@@ -265,7 +416,9 @@
         "roles",
         "host_class"
       ],
-      "summary": "Trace one indicator to its true owner and full estate, even behind privacy screens and CDNs."
+      "summary": "Trace one indicator to its true owner and full estate, even behind privacy screens and CDNs.",
+      "docPath": "/docs/recipes/compliance",
+      "docsUrl": "https://www.whisper.security/docs/recipes/compliance"
     },
     {
       "method": "mapSupplyChainConcentration",
@@ -283,13 +436,27 @@
       ],
       "cypher": null,
       "runVia": "run_workflow (map-supply-chain-concentration)",
+      "flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "map-supply-chain-concentration",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      },
       "returns": [
         "provider",
         "asn",
         "region",
         "country"
       ],
-      "summary": "Grade an organisation for over-reliance on single providers, regions, or facilities."
+      "summary": "Grade an organisation for over-reliance on single providers, regions, or facilities.",
+      "docPath": "/docs/recipes/compliance",
+      "docsUrl": "https://www.whisper.security/docs/recipes/compliance"
     },
     {
       "method": "nameserverHijackDnsConsistency",
@@ -307,12 +474,26 @@
       ],
       "cypher": null,
       "runVia": "run_workflow (nameserver-hijack-dns-consistency)",
+      "flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "nameserver-hijack-dns-consistency",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      },
       "returns": [
         "nameserver",
         "ips",
         "status"
       ],
-      "summary": "Check a domain's name servers for the misconfigurations that enable DNS hijacking."
+      "summary": "Check a domain's name servers for the misconfigurations that enable DNS hijacking.",
+      "docPath": "/docs/recipes/dns-email",
+      "docsUrl": "https://www.whisper.security/docs/recipes/dns-email"
     },
     {
       "method": "routeHealth",
@@ -330,13 +511,27 @@
       ],
       "cypher": null,
       "runVia": "run_workflow (route-health)",
+      "flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "route-health",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      },
       "returns": [
         "prefix",
         "multi_origin",
         "anycast",
         "withdrawn"
       ],
-      "summary": "Profile a network or address block into a full routing and reachability health card."
+      "summary": "Profile a network or address block into a full routing and reachability health card.",
+      "docPath": "/docs/recipes/bgp-routing",
+      "docsUrl": "https://www.whisper.security/docs/recipes/bgp-routing"
     },
     {
       "method": "subdomainTakeover",
@@ -354,11 +549,25 @@
       ],
       "cypher": null,
       "runVia": "run_workflow (subdomain-takeover)",
+      "flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "subdomain-takeover",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      },
       "returns": [
         "subdomain",
         "ips"
       ],
-      "summary": "Find subdomains that point at abandoned services an attacker could claim."
+      "summary": "Find subdomains that point at abandoned services an attacker could claim.",
+      "docPath": "/docs/recipes/pentest-recon",
+      "docsUrl": "https://www.whisper.security/docs/recipes/pentest-recon"
     },
     {
       "method": "typosquat",
@@ -376,12 +585,26 @@
       ],
       "cypher": null,
       "runVia": "run_workflow (typosquat)",
+      "flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "typosquat",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      },
       "returns": [
         "variant",
         "method",
         "confidence"
       ],
-      "summary": "Find registered look-alikes of your brand and check which ones are dangerous."
+      "summary": "Find registered look-alikes of your brand and check which ones are dangerous.",
+      "docPath": "/docs/recipes/brand-protection",
+      "docsUrl": "https://www.whisper.security/docs/recipes/brand-protection"
     },
     {
       "method": "identify",
@@ -399,6 +622,7 @@
       ],
       "cypher": "CALL whisper.identify([$v]) YIELD host, vendor_id, canonical_name, category, roles, host_class, band",
       "runVia": null,
+      "flowRun": null,
       "returns": [
         "host",
         "vendor_id",
@@ -408,7 +632,9 @@
         "host_class",
         "band"
       ],
-      "summary": "Name the vendor and operator role behind a host or IP in one call."
+      "summary": "Name the vendor and operator role behind a host or IP in one call.",
+      "docPath": "/docs/whisper-graph/procedures/identify",
+      "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/identify"
     },
     {
       "method": "assess",
@@ -426,6 +652,7 @@
       ],
       "cypher": "CALL whisper.assess([$v]) YIELD host, label, band, sub_labels, coverage, evidence",
       "runVia": null,
+      "flowRun": null,
       "returns": [
         "host",
         "label",
@@ -434,7 +661,9 @@
         "coverage",
         "evidence"
       ],
-      "summary": "Get a labelled threat posture for a host or IP - malicious, benign, or unknown."
+      "summary": "Get a labelled threat posture for a host or IP - malicious, benign, or unknown.",
+      "docPath": "/docs/whisper-graph/procedures",
+      "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures"
     },
     {
       "method": "variants",
@@ -452,13 +681,16 @@
       ],
       "cypher": "CALL whisper.variants($v) YIELD variant, method, exists, confidence",
       "runVia": null,
+      "flowRun": null,
       "returns": [
         "variant",
         "method",
         "exists",
         "confidence"
       ],
-      "summary": "Generate look-alike domain variants of a brand and see which are registered."
+      "summary": "Generate look-alike domain variants of a brand and see which are registered.",
+      "docPath": "/docs/whisper-graph/procedures/variants",
+      "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/variants"
     },
     {
       "method": "walk",
@@ -476,6 +708,7 @@
       ],
       "cypher": "CALL whisper.walk($v) YIELD coverage, host, nearest_known_vendors, no_atlas_match, siblings",
       "runVia": null,
+      "flowRun": null,
       "returns": [
         "coverage",
         "host",
@@ -483,7 +716,9 @@
         "no_atlas_match",
         "siblings"
       ],
-      "summary": "Walk the graph to the nearest known vendors behind a host, with the channel and confidence."
+      "summary": "Walk the graph to the nearest known vendors behind a host, with the channel and confidence.",
+      "docPath": "/docs/whisper-graph/procedures",
+      "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures"
     },
     {
       "method": "explain",
@@ -501,6 +736,7 @@
       ],
       "cypher": "CALL whisper.explain($v) YIELD indicator, score, level, explanation, sources",
       "runVia": null,
+      "flowRun": null,
       "returns": [
         "indicator",
         "score",
@@ -508,7 +744,9 @@
         "explanation",
         "sources"
       ],
-      "summary": "Score an indicator against the threat feeds and explain exactly why."
+      "summary": "Score an indicator against the threat feeds and explain exactly why.",
+      "docPath": "/docs/whisper-graph/procedures/explain",
+      "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/explain"
     },
     {
       "method": "pslTldplusone",
@@ -526,10 +764,13 @@
       ],
       "cypher": "CALL whisper.psl.tldPlusOne($v) YIELD apex",
       "runVia": null,
+      "flowRun": null,
       "returns": [
         "apex"
       ],
-      "summary": "Reduce any hostname to its registrable apex (eTLD+1) via the Public Suffix List."
+      "summary": "Reduce any hostname to its registrable apex (eTLD+1) via the Public Suffix List.",
+      "docPath": "/docs/whisper-graph/procedures/helpers",
+      "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/helpers"
     },
     {
       "method": "pslAffiliation",
@@ -547,6 +788,7 @@
       ],
       "cypher": "CALL whisper.psl.affiliation($v) YIELD found, suffix, submitterOrg, submitterLogin, evidenceKind, confidence",
       "runVia": null,
+      "flowRun": null,
       "returns": [
         "found",
         "suffix",
@@ -555,7 +797,9 @@
         "evidenceKind",
         "confidence"
       ],
-      "summary": "Check whether a domain is a PSL private-section suffix and who submitted it."
+      "summary": "Check whether a domain is a PSL private-section suffix and who submitted it.",
+      "docPath": "/docs/whisper-graph/procedures/helpers",
+      "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/helpers"
     },
     {
       "method": "origins",
@@ -573,6 +817,7 @@
       ],
       "cypher": "CALL whisper.origins($v) YIELD ip, confidence, methods, asn, asnName, kind",
       "runVia": null,
+      "flowRun": null,
       "returns": [
         "ip",
         "confidence",
@@ -581,7 +826,9 @@
         "asnName",
         "kind"
       ],
-      "summary": "Find the real origin IPs behind a CDN-fronted domain, ranked by confidence."
+      "summary": "Find the real origin IPs behind a CDN-fronted domain, ranked by confidence.",
+      "docPath": "/docs/whisper-graph/procedures/origins",
+      "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/origins"
     },
     {
       "method": "history",
@@ -599,6 +846,7 @@
       ],
       "cypher": "CALL whisper.history($v)",
       "runVia": null,
+      "flowRun": null,
       "returns": [
         "indicator",
         "type",
@@ -612,7 +860,9 @@
         "nameServers",
         "cached"
       ],
-      "summary": "Get the full historical WHOIS timeline for a domain."
+      "summary": "Get the full historical WHOIS timeline for a domain.",
+      "docPath": "/docs/whisper-graph/procedures/history",
+      "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/history"
     },
     {
       "method": "historyWhois",
@@ -630,6 +880,7 @@
       ],
       "cypher": "CALL whisper.history.whois($v) YIELD queryTime, createDate, updateDate, expiryDate, registrar, registrant, country, nameServers",
       "runVia": null,
+      "flowRun": null,
       "returns": [
         "queryTime",
         "createDate",
@@ -640,7 +891,9 @@
         "country",
         "nameServers"
       ],
-      "summary": "Get the WHOIS-only historical timeline for a domain."
+      "summary": "Get the WHOIS-only historical timeline for a domain.",
+      "docPath": "/docs/whisper-graph/procedures/history",
+      "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/history"
     },
     {
       "method": "asset",
@@ -658,12 +911,15 @@
       ],
       "cypher": "CALL whisper.asSet($v) YIELD asSetName, memberAsn, sourceRir",
       "runVia": null,
+      "flowRun": null,
       "returns": [
         "asSetName",
         "memberAsn",
         "sourceRir"
       ],
-      "summary": "List the member ASNs of an AS-SET macro."
+      "summary": "List the member ASNs of an AS-SET macro.",
+      "docPath": "/docs/whisper-graph/procedures",
+      "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures"
     },
     {
       "method": "lookupTorRelay",
@@ -681,6 +937,7 @@
       ],
       "cypher": "CALL whisper.lookupTorRelay($v) YIELD indicator, found, fingerprint, exitAddressCount, source, ingestedAt",
       "runVia": null,
+      "flowRun": null,
       "returns": [
         "indicator",
         "found",
@@ -689,7 +946,9 @@
         "source",
         "ingestedAt"
       ],
-      "summary": "Check whether an IP is a known Tor exit relay."
+      "summary": "Check whether an IP is a known Tor exit relay.",
+      "docPath": "/docs/whisper-graph/procedures/helpers",
+      "docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/helpers"
     },
     {
       "method": "dbSchema",
@@ -700,6 +959,7 @@
       "params": [],
       "cypher": "CALL db.schema()",
       "runVia": null,
+      "flowRun": null,
       "returns": [
         "type",
         "name",
@@ -712,7 +972,9 @@
         "slowPatterns",
         "bestPractices"
       ],
-      "summary": "List every node and relationship type in the graph with counts and examples."
+      "summary": "List every node and relationship type in the graph with counts and examples.",
+      "docPath": "/docs/whisper-graph/schema",
+      "docsUrl": "https://www.whisper.security/docs/whisper-graph/schema"
     },
     {
       "method": "submit",
@@ -726,12 +988,90 @@
           "kind": "select",
           "required": false,
           "default": "indicator"
+        },
+        {
+          "name": "identifier_kind",
+          "kind": "select",
+          "required": false,
+          "default": "ip"
+        },
+        {
+          "name": "value",
+          "kind": "any",
+          "required": false,
+          "default": "203.0.113.5"
+        },
+        {
+          "name": "observation_id",
+          "kind": "string",
+          "required": false,
+          "default": null
+        },
+        {
+          "name": "confidence",
+          "kind": "number",
+          "required": false,
+          "default": null
+        },
+        {
+          "name": "first_seen",
+          "kind": "string",
+          "required": false,
+          "default": null
+        },
+        {
+          "name": "provenance",
+          "kind": "string",
+          "required": false,
+          "default": null
+        },
+        {
+          "name": "query",
+          "kind": "string",
+          "required": false,
+          "default": null
+        },
+        {
+          "name": "results",
+          "kind": "any",
+          "required": false,
+          "default": null
+        },
+        {
+          "name": "comment",
+          "kind": "string",
+          "required": false,
+          "default": null
+        },
+        {
+          "name": "severity",
+          "kind": "string",
+          "required": false,
+          "default": null
+        },
+        {
+          "name": "v",
+          "kind": "number",
+          "required": false,
+          "default": null
         }
       ],
-      "cypher": "CALL whisper.submit({kind:$kind, /* + indicator/feedback fields */})",
+      "cypher": "CALL whisper.submit({kind:$kind, identifier_kind:$identifier_kind, value:$value})",
       "runVia": null,
-      "returns": [],
-      "summary": "Contribute an indicator observation or feedback back into the graph (requires an API key)."
+      "flowRun": null,
+      "returns": [
+        "observation_id",
+        "kind",
+        "accepted",
+        "idempotent",
+        "promotion_state",
+        "k_bucket",
+        "advisory",
+        "v"
+      ],
+      "summary": "Contribute an indicator observation or feedback back into the graph (requires an API key).",
+      "docPath": "/docs/cypher-api",
+      "docsUrl": "https://www.whisper.security/docs/cypher-api"
     }
   ]
 }

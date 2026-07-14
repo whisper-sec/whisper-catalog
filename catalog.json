@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-14T08:52:56Z",
+  "generatedAt": "2026-07-14T12:17:30Z",
   "graph": {
     "endpoint": "https://graph.whisper.security/api/query",
     "request": "POST application/json  {\"query\":\"<cypher>\",\"parameters\":{...}}",
@@ -8,7 +8,20 @@
     "rowsShape": "rows are OBJECTS keyed by column name",
     "auth": "API key required for all queries (X-API-Key)",
     "keyed": "unlimited",
-    "playground": "keyless is a rate-limited taste only (100/window); not for production. If it is Cypher it needs a key"
+    "playground": "keyless is a rate-limited taste only (100/window); not for production. If it is Cypher it needs a key",
+    "docsBase": "https://www.whisper.security",
+    "flowRun": {
+      "endpoint": "https://console.whisper.security/api/gallery/run",
+      "method": "POST",
+      "auth": "X-API-Key",
+      "bodyShape": {
+        "slug": "<flow id>",
+        "inputs": "{}",
+        "params": "{}"
+      },
+      "transport": "SSE",
+      "note": "Runs a catalog flow by its id. Keyed only."
+    }
   },
   "entries": [
     {
@@ -17,6 +30,7 @@
       "purpose": "Assess how resilient a country's core DNS is if it were cut off from the world.",
       "why": "Could a country still resolve names if it were isolated? Counts how many of the 13 root letters have in-country DNS_ROOT_INSTANCE anycast nodes, the Global-vs-Local split, the BGP origin ASNs hosting them, and a resilience grade.",
       "category": "Infrastructure, supply-chain & compliance / DNS & email security / Research & OSINT",
+      "docPath": "/docs/recipes/compliance",
       "tags": [
         "workflow",
         "audit",
@@ -79,6 +93,7 @@
       "purpose": "Find the choke points an attacker would target - and how any two things connect.",
       "why": "From a starting foothold, finds shared dependencies whose compromise reaches furthest; for any two indicators, traces how they are actually connected.",
       "category": "SOC, DFIR & IR / Threat intelligence / Threat-actor & TTP",
+      "docPath": "/docs/recipes/attack-path",
       "tags": [
         "workflow",
         "pivot",
@@ -157,6 +172,7 @@
       "purpose": "Map everything about a domain that's exposed to the outside world, scored for risk.",
       "why": "Maps the full external footprint - subdomains, name/mail servers, registrant, third-party services, connected web - and scores the exposure.",
       "category": "Attack surface & recon / DNS & email security / SOC, DFIR & IR / Infrastructure, supply-chain & compliance / Brand protection",
+      "docPath": "/docs/recipes/pentest-recon",
       "tags": [
         "workflow",
         "profile",
@@ -227,6 +243,7 @@
       "purpose": "Grade a network's routing security and trace conflicts to the domains they'd expose.",
       "why": "Grades a network on the conflicts/gaps that make route hijacking possible, then traces any conflict to the specific domains and organisations exposed on the affected blocks.",
       "category": "Network & BGP / Threat intelligence / SOC, DFIR & IR",
+      "docPath": "/docs/recipes/bgp-routing",
       "tags": [
         "workflow",
         "detect",
@@ -269,6 +286,7 @@
       "purpose": "Pick one asset and see what would break if it failed - and what it depends on in turn.",
       "why": "Maps dependencies in both directions: everything that breaks if the asset fails (SPOFs) and everything it relies on (its own DNS/mail/hosting/network supply chain).",
       "category": "Network & BGP / Infrastructure, supply-chain & compliance",
+      "docPath": "/docs/recipes/soc",
       "tags": [
         "workflow",
         "profile",
@@ -327,6 +345,7 @@
       "purpose": "Assemble a ready-to-submit dossier for taking down a scam or phishing domain.",
       "why": "One-pass takedown package: reputation verdict, owner (WHOIS), abuse-list listings, and surrounding infrastructure, laid out ready to hand to a registrar/host.",
       "category": "Brand protection / Research & OSINT / SOC, DFIR & IR",
+      "docPath": "/docs/recipes/threat-intel",
       "tags": [
         "workflow",
         "enrich",
@@ -382,6 +401,7 @@
       "purpose": "Map an organisation's externally visible AI and agent endpoints from the outside.",
       "why": "Maps externally visible AI/agent hosts (API, model, agent) from the outside via heuristic hostname patterns (api./mcp./ai./vector./llm./agent./chat./copilot.). Best-effort leads.",
       "category": "Attack surface & recon / AI agents & MCP",
+      "docPath": "/docs/recipes/pentest-recon",
       "tags": [
         "workflow",
         "profile",
@@ -421,6 +441,7 @@
       "purpose": "Investigate one suspicious domain, IP, or network in depth and get a clear picture of the threat and everything connected to it.",
       "why": "Deep-dive: works outward across the whole footprint (related domains, real origins behind CDN, neighbouring infra), threat-checks each node, never inherits maliciousness from shared infra; labelled posture, no score.",
       "category": "SOC, DFIR & IR / Threat intelligence",
+      "docPath": "/docs/recipes/soc",
       "tags": [
         "workflow",
         "enrich",
@@ -478,6 +499,7 @@
       "purpose": "Turn one domain or IP into a full context card - owner, hosting, mail, location, reputation at a glance.",
       "why": "Fills the picture for one indicator: registrant (WHOIS), hosting + country, mail/name servers, network behind it, reputation read.",
       "category": "DNS & email security / SOC, DFIR & IR",
+      "docPath": "/docs/recipes/dns-email",
       "tags": [
         "workflow",
         "enrich",
@@ -527,6 +549,7 @@
       "purpose": "Trace one indicator to its true owner and full estate, even behind privacy screens and CDNs.",
       "why": "Works out the true operator (even behind privacy WHOIS), de-cloaks CDN-fronted sites to real servers, pivots to the rest of that owner’s estate across every layer.",
       "category": "Infrastructure, supply-chain & compliance / Network & BGP / Research & OSINT",
+      "docPath": "/docs/recipes/compliance",
       "tags": [
         "workflow",
         "profile",
@@ -596,6 +619,7 @@
       "purpose": "Grade an organisation for over-reliance on single providers, regions, or facilities.",
       "why": "Grades how concentrated infra is - too much riding on one provider/region/data-centre/cable landing - surfacing SPOFs for resilience and DORA/NIS2 fourth-party risk.",
       "category": "Infrastructure, supply-chain & compliance / Research & OSINT",
+      "docPath": "/docs/recipes/compliance",
       "tags": [
         "workflow",
         "audit",
@@ -644,6 +668,7 @@
       "purpose": "Check a domain's name servers for the misconfigurations that enable DNS hijacking.",
       "why": "Audits delegation, flags stale/mismatched/lame nameservers, sizes each provider’s share, surfaces registry facts - catches delegation weakness before exploit.",
       "category": "DNS & email security / SOC, DFIR & IR",
+      "docPath": "/docs/recipes/dns-email",
       "tags": [
         "workflow",
         "audit",
@@ -684,6 +709,7 @@
       "purpose": "Profile a network or address block into a full routing and reachability health card.",
       "why": "Health card for a network/block: what it announces, peers/transit, single-upstream lean, RPKI protection - the one-look reach & resilience report.",
       "category": "Network & BGP / Infrastructure, supply-chain & compliance",
+      "docPath": "/docs/recipes/bgp-routing",
       "tags": [
         "workflow",
         "audit",
@@ -727,6 +753,7 @@
       "purpose": "Find subdomains that point at abandoned services an attacker could claim.",
       "why": "Walks subdomains and flags ones aiming at deprovisioned targets (dangling CNAME whose target no longer resolves) so you can reclaim/remove before someone else does. CNAME layer is prod-ahead.",
       "category": "Attack surface & recon / SOC, DFIR & IR",
+      "docPath": "/docs/recipes/pentest-recon",
       "tags": [
         "workflow",
         "detect",
@@ -766,6 +793,7 @@
       "purpose": "Find registered look-alikes of your brand and check which ones are dangerous.",
       "why": "Finds registered impersonations across misspellings/risky TLDs, separates your own defensive domains from strangers’, flags fresh/privacy/abuse-listed ones into a prioritised list.",
       "category": "Brand protection / Threat intelligence",
+      "docPath": "/docs/recipes/brand-protection",
       "tags": [
         "workflow",
         "detect",
@@ -814,6 +842,7 @@
       "purpose": "Name the vendor and operator role behind a host or IP in one call.",
       "why": "Resolves a host/IP to its canonical vendor, category and operator roles (DNS_OPERATOR / CDN / ORIGIN_AS / MAIL_RECEIVER) with a confidence band.",
       "category": "Infrastructure, supply-chain & compliance / Research & OSINT",
+      "docPath": "/docs/whisper-graph/procedures/identify",
       "tags": [
         "direct",
         "enrich",
@@ -865,6 +894,7 @@
       "purpose": "Get a labelled threat posture for a host or IP - malicious, benign, or unknown.",
       "why": "Returns a posture label + severity band + sub-labels + coverage + evidence for an indicator; benign-allowlisted vs malicious-evidenced, never a bare score.",
       "category": "SOC, DFIR & IR / Threat intelligence",
+      "docPath": "/docs/whisper-graph/procedures",
       "tags": [
         "direct",
         "enrich",
@@ -913,6 +943,7 @@
       "purpose": "Generate look-alike domain variants of a brand and see which are registered.",
       "why": "Enumerates permutations (omission, bitsquatting, ...) of a domain, flags which exist, with a per-variant confidence.",
       "category": "Brand protection / Threat intelligence",
+      "docPath": "/docs/whisper-graph/procedures/variants",
       "tags": [
         "direct",
         "detect",
@@ -954,6 +985,7 @@
       "purpose": "Walk the graph to the nearest known vendors behind a host, with the channel and confidence.",
       "why": "Structural attribution: returns nearest_known_vendors with the channel (DELEGATED_TO / ORIGIN_AS) and confidence, plus siblings and coverage - explains WHY a host maps to a vendor.",
       "category": "Infrastructure, supply-chain & compliance / Research & OSINT",
+      "docPath": "/docs/whisper-graph/procedures",
       "tags": [
         "direct",
         "attribute",
@@ -998,6 +1030,7 @@
       "purpose": "Score an indicator against the threat feeds and explain exactly why.",
       "why": "Threat-intel scorer: score + level + human explanation + the feeds it is listed in (feedId, weight, firstSeen/lastSeen). Two live forms: bare CALL explain($v) (full columns) and CALL whisper.explain($v) (restricted YIELD).",
       "category": "SOC, DFIR & IR / Threat intelligence",
+      "docPath": "/docs/whisper-graph/procedures/explain",
       "tags": [
         "direct",
         "enrich",
@@ -1046,6 +1079,7 @@
       "purpose": "Reduce any hostname to its registrable apex (eTLD+1) via the Public Suffix List.",
       "why": "PSL-correct eTLD+1: www.foo.co.uk -> foo.co.uk. The right way to group hosts by the thing someone actually registered.",
       "category": "DNS & email security / Research & OSINT",
+      "docPath": "/docs/whisper-graph/procedures/helpers",
       "tags": [
         "direct",
         "profile",
@@ -1084,6 +1118,7 @@
       "purpose": "Check whether a domain is a PSL private-section suffix and who submitted it.",
       "why": "For a PSL private-section suffix, returns the submitting org/login and evidence kind + confidence; found=false for ordinary registrable domains.",
       "category": "DNS & email security / Research & OSINT",
+      "docPath": "/docs/whisper-graph/procedures/helpers",
       "tags": [
         "direct",
         "attribute",
@@ -1127,6 +1162,7 @@
       "purpose": "Find the real origin IPs behind a CDN-fronted domain, ranked by confidence.",
       "why": "Candidate origin IPs behind a CDN with confidence, the methods that found them (e.g. links_to), and the hosting ASN/name - de-cloaks to the real server.",
       "category": "Attack surface & recon / Infrastructure, supply-chain & compliance",
+      "docPath": "/docs/whisper-graph/procedures/origins",
       "tags": [
         "direct",
         "pivot",
@@ -1172,6 +1208,7 @@
       "purpose": "Get the full historical WHOIS timeline for a domain.",
       "why": "Every observed WHOIS snapshot over time: create/update/expiry, registrar, registrant, country, nameservers - the ownership/registration story.",
       "category": "Research & OSINT / SOC, DFIR & IR",
+      "docPath": "/docs/whisper-graph/procedures/history",
       "tags": [
         "direct",
         "enrich",
@@ -1222,6 +1259,7 @@
       "purpose": "Get the WHOIS-only historical timeline for a domain.",
       "why": "The registration-record projection of the history timeline: create/update/expiry, registrar, registrant, country, nameservers per snapshot.",
       "category": "Research & OSINT / SOC, DFIR & IR",
+      "docPath": "/docs/whisper-graph/procedures/history",
       "tags": [
         "direct",
         "enrich",
@@ -1268,6 +1306,7 @@
       "purpose": "List the member ASNs of an AS-SET macro.",
       "why": "Expands an AS-SET name (e.g. AS-CLOUDFLARE) to its member ASNs and source RIR. Arg is a STRING as-set name, not an integer ASN. (Membership is sparsely populated in the current graph.)",
       "category": "Network & BGP",
+      "docPath": "/docs/whisper-graph/procedures",
       "tags": [
         "direct",
         "profile",
@@ -1308,6 +1347,7 @@
       "purpose": "Check whether an IP is a known Tor exit relay.",
       "why": "Live Tor exit-node check: found + fingerprint + exit-address count + source + ingest time for an IPv4.",
       "category": "SOC, DFIR & IR / Threat intelligence",
+      "docPath": "/docs/whisper-graph/procedures/helpers",
       "tags": [
         "direct",
         "enrich",
@@ -1351,6 +1391,7 @@
       "purpose": "List every node and relationship type in the graph with counts and examples.",
       "why": "The self-describing schema: node/relationship types with counts, descriptions, examples, source/target labels and query best-practices - the map of what the graph holds.",
       "category": "Research & OSINT / Infrastructure, supply-chain & compliance",
+      "docPath": "/docs/whisper-graph/schema",
       "tags": [
         "direct",
         "profile",
@@ -1389,6 +1430,7 @@
       "purpose": "Contribute an indicator observation or feedback back into the graph (requires an API key).",
       "why": "The write channel: submit an indicator/feedback with an attributable API key (anonymous submits are refused to preserve K-anonymity). Keyed-only by design.",
       "category": "Threat intelligence / SOC, DFIR & IR",
+      "docPath": "/docs/cypher-api",
       "tags": [
         "direct",
         "write",
@@ -1405,23 +1447,118 @@
             "indicator",
             "feedback"
           ]
+        },
+        {
+          "id": "identifierKind",
+          "kind": "select",
+          "paramName": "identifier_kind",
+          "default": "ip",
+          "options": [
+            "ip",
+            "asn",
+            "cert_sha256",
+            "cert_ja3_hash",
+            "cert_ja4_hash",
+            "cert_jarm",
+            "cidr",
+            "whois_pattern",
+            "host_hash_rotating",
+            "url_path_hash"
+          ]
+        },
+        {
+          "id": "value",
+          "kind": "any",
+          "paramName": "value",
+          "default": "203.0.113.5",
+          "examples": [
+            "203.0.113.5",
+            "AS64496",
+            "198.51.100.0/24"
+          ]
+        },
+        {
+          "id": "observationId",
+          "kind": "string",
+          "paramName": "observation_id",
+          "optional": true
+        },
+        {
+          "id": "confidence",
+          "kind": "number",
+          "paramName": "confidence",
+          "optional": true
+        },
+        {
+          "id": "firstSeen",
+          "kind": "string",
+          "paramName": "first_seen",
+          "optional": true
+        },
+        {
+          "id": "provenance",
+          "kind": "string",
+          "paramName": "provenance",
+          "optional": true
+        },
+        {
+          "id": "query",
+          "kind": "string",
+          "paramName": "query",
+          "optional": true
+        },
+        {
+          "id": "results",
+          "kind": "any",
+          "paramName": "results",
+          "optional": true
+        },
+        {
+          "id": "comment",
+          "kind": "string",
+          "paramName": "comment",
+          "optional": true
+        },
+        {
+          "id": "severity",
+          "kind": "string",
+          "paramName": "severity",
+          "optional": true
+        },
+        {
+          "id": "v",
+          "kind": "number",
+          "paramName": "v",
+          "optional": true
         }
       ],
       "params": [],
       "exec": {
         "mode": "direct",
-        "cypher": "CALL whisper.submit({kind:$kind, /* + indicator/feedback fields */})",
+        "cypher": "CALL whisper.submit({kind:$kind, identifier_kind:$identifier_kind, value:$value})",
         "params": {
-          "kind": "indicator"
+          "kind": "indicator",
+          "identifier_kind": "ip",
+          "value": "203.0.113.5"
         },
-        "note": "WRITE channel. Anonymous callers are refused with a clear 400 (\"a write channel requires an attributable API key … preserves K-anonymity\"). With a key the call passes auth and validates on the required kind arg."
+        "altForm": "kind:'feedback' takes {observation_id?, query?, results?, comment?, severity?, v?} - all optional, a comment-only report is accepted - and returns the 4-column receipt: observation_id, accepted, advisory, v. Batch: UNWIND $records AS rec CALL whisper.submit(rec) dispatches one call per record, each row in its kind's shape.",
+        "note": "WRITE channel; needs an API key carrying the submit:write scope (anonymous callers get a clear 400: a write channel requires an attributable API key, preserving K-anonymity). Per-kind CLOSED arg schema, live-verified: kind:'indicator' allows {kind, identifier_kind, value, observation_id?, confidence?, first_seen?, provenance?, v?} and requires identifier_kind + value; kind:'feedback' allows {kind, observation_id?, query?, results?, comment?, severity?, v?}. identifier_kind is one of ip, asn, cert_sha256, cert_ja3_hash, cert_ja4_hash, cert_jarm, cidr, whois_pattern (plaintext, normalized server-side) or host_hash_rotating, url_path_hash (submitter-side pre-hashed 64-char SHA-256 hex; a plaintext host/URL is rejected, never auto-hashed). results is a list of strings. An unknown key or kind is rejected with a clear 400 naming the allowed set."
       },
       "access": "keyed",
       "playgroundTryable": false,
       "minTier": "free",
       "resultShape": "table",
-      "columns": [],
-      "prompt": "Submit an observation to the graph. CALL whisper.submit({kind:$kind, ...}). This is a WRITE, so it requires an attributable API key; without one the endpoint returns a clear 400, not a result.",
+      "columns": [
+        "observation_id",
+        "kind",
+        "accepted",
+        "idempotent",
+        "promotion_state",
+        "k_bucket",
+        "advisory",
+        "v"
+      ],
+      "prompt": "Submit an observation to the graph. CALL whisper.submit({kind:'indicator', identifier_kind:'ip', value:$v}) with a key carrying submit:write (writes are keyed; anonymous gets a clear 400). identifier_kind: ip / asn / cert_sha256 / cert_ja3_hash / cert_ja4_hash / cert_jarm / cidr / whois_pattern in plaintext, or host_hash_rotating / url_path_hash pre-hashed (64-char SHA-256 hex). kind:'feedback' files a free-form report ({query?, results?, comment?, severity?}). The indicator ack returns observation_id, accepted, idempotent, promotion_state and a bucketed k_bucket (below / promoted), never a raw count.",
       "provenance": true,
       "version": "1.0.0"
     }

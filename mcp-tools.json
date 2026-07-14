@@ -1,8 +1,21 @@
 {
-  "generatedAt": "2026-07-14T08:52:56Z",
+  "generatedAt": "2026-07-14T12:17:30Z",
   "endpoint": "https://graph.whisper.security/api/query",
   "auth": "API key required for all queries (X-API-Key)",
-  "note": "Every tool here runs Cypher against the whisper.security graph, so every tool is KEYED (supply X-API-Key). The keyless half of Whisper is the non-Cypher identity tools (verify/rdap), which are not in this catalog. Tools with _playgroundTryable:true can be sampled without a key in the rate-limited playground (100/window).",
+  "docsBase": "https://www.whisper.security",
+  "flowRun": {
+    "endpoint": "https://console.whisper.security/api/gallery/run",
+    "method": "POST",
+    "auth": "X-API-Key",
+    "bodyShape": {
+      "slug": "<flow id>",
+      "inputs": "{}",
+      "params": "{}"
+    },
+    "transport": "SSE",
+    "note": "Runs a catalog flow by its id. Keyed only."
+  },
+  "note": "Every tool here runs Cypher against the whisper.security graph, so every tool is KEYED (supply X-API-Key). The keyless half of Whisper is the non-Cypher identity tools (verify/rdap), which are not in this catalog. Tools with _playgroundTryable:true can be sampled without a key in the rate-limited playground (100/window). Each tool carries _docPath/_docsUrl (docsBase + docPath) for its documentation page; flow tools carry _flowRun (POST the slug to the run endpoint, SSE stream).",
   "tools": [
     {
       "name": "whisper_anycastDnsRootSovereignty",
@@ -33,7 +46,21 @@
         "globalCount",
         "localCount",
         "hostingAsns"
-      ]
+      ],
+      "_docPath": "/docs/recipes/compliance",
+      "_docsUrl": "https://www.whisper.security/docs/recipes/compliance",
+      "_flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "anycast-dns-root-sovereignty",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      }
     },
     {
       "name": "whisper_attackPath",
@@ -76,7 +103,21 @@
         "factors",
         "sources",
         "advisory"
-      ]
+      ],
+      "_docPath": "/docs/recipes/attack-path",
+      "_docsUrl": "https://www.whisper.security/docs/recipes/attack-path",
+      "_flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "attack-path",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      }
     },
     {
       "name": "whisper_attackSurface",
@@ -114,7 +155,21 @@
         "factors",
         "sources",
         "advisory"
-      ]
+      ],
+      "_docPath": "/docs/recipes/pentest-recon",
+      "_docsUrl": "https://www.whisper.security/docs/recipes/pentest-recon",
+      "_flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "attack-surface",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      }
     },
     {
       "name": "whisper_bgpHijackExposure",
@@ -143,7 +198,21 @@
         "prefix",
         "is_moas",
         "conflicting_asn"
-      ]
+      ],
+      "_docPath": "/docs/recipes/bgp-routing",
+      "_docsUrl": "https://www.whisper.security/docs/recipes/bgp-routing",
+      "_flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "bgp-hijack-exposure",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      }
     },
     {
       "name": "whisper_blastRadius",
@@ -172,7 +241,21 @@
       "_resultColumns": [
         "labels",
         "name"
-      ]
+      ],
+      "_docPath": "/docs/recipes/soc",
+      "_docsUrl": "https://www.whisper.security/docs/recipes/soc",
+      "_flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "blast-radius",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      }
     },
     {
       "name": "whisper_buildTakedownEvidencePackage",
@@ -209,7 +292,21 @@
         "factors",
         "sources",
         "advisory"
-      ]
+      ],
+      "_docPath": "/docs/recipes/threat-intel",
+      "_docsUrl": "https://www.whisper.security/docs/recipes/threat-intel",
+      "_flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "build-takedown-evidence-package",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      }
     },
     {
       "name": "whisper_discoverAiAgentInfrastructure",
@@ -237,7 +334,21 @@
       "_resultColumns": [
         "hostname",
         "ips"
-      ]
+      ],
+      "_docPath": "/docs/recipes/pentest-recon",
+      "_docsUrl": "https://www.whisper.security/docs/recipes/pentest-recon",
+      "_flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "discover-ai-agent-infrastructure",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      }
     },
     {
       "name": "whisper_indicator",
@@ -270,7 +381,21 @@
         "sub_labels",
         "coverage",
         "evidence"
-      ]
+      ],
+      "_docPath": "/docs/recipes/soc",
+      "_docsUrl": "https://www.whisper.security/docs/recipes/soc",
+      "_flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "indicator",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      }
     },
     {
       "name": "whisper_indicatorEnrichment",
@@ -298,7 +423,21 @@
       "_resultColumns": [
         "attribute",
         "value"
-      ]
+      ],
+      "_docPath": "/docs/recipes/dns-email",
+      "_docsUrl": "https://www.whisper.security/docs/recipes/dns-email",
+      "_flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "indicator-enrichment",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      }
     },
     {
       "name": "whisper_infrastructureMapping",
@@ -330,7 +469,21 @@
         "category",
         "roles",
         "host_class"
-      ]
+      ],
+      "_docPath": "/docs/recipes/compliance",
+      "_docsUrl": "https://www.whisper.security/docs/recipes/compliance",
+      "_flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "infrastructure-mapping",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      }
     },
     {
       "name": "whisper_mapSupplyChainConcentration",
@@ -360,7 +513,21 @@
         "asn",
         "region",
         "country"
-      ]
+      ],
+      "_docPath": "/docs/recipes/compliance",
+      "_docsUrl": "https://www.whisper.security/docs/recipes/compliance",
+      "_flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "map-supply-chain-concentration",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      }
     },
     {
       "name": "whisper_nameserverHijackDnsConsistency",
@@ -389,7 +556,21 @@
         "nameserver",
         "ips",
         "status"
-      ]
+      ],
+      "_docPath": "/docs/recipes/dns-email",
+      "_docsUrl": "https://www.whisper.security/docs/recipes/dns-email",
+      "_flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "nameserver-hijack-dns-consistency",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      }
     },
     {
       "name": "whisper_routeHealth",
@@ -419,7 +600,21 @@
         "multi_origin",
         "anycast",
         "withdrawn"
-      ]
+      ],
+      "_docPath": "/docs/recipes/bgp-routing",
+      "_docsUrl": "https://www.whisper.security/docs/recipes/bgp-routing",
+      "_flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "route-health",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      }
     },
     {
       "name": "whisper_subdomainTakeover",
@@ -447,7 +642,21 @@
       "_resultColumns": [
         "subdomain",
         "ips"
-      ]
+      ],
+      "_docPath": "/docs/recipes/pentest-recon",
+      "_docsUrl": "https://www.whisper.security/docs/recipes/pentest-recon",
+      "_flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "subdomain-takeover",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      }
     },
     {
       "name": "whisper_typosquat",
@@ -477,7 +686,21 @@
         "variant",
         "method",
         "confidence"
-      ]
+      ],
+      "_docPath": "/docs/recipes/brand-protection",
+      "_docsUrl": "https://www.whisper.security/docs/recipes/brand-protection",
+      "_flowRun": {
+        "endpoint": "https://console.whisper.security/api/gallery/run",
+        "method": "POST",
+        "auth": "X-API-Key",
+        "bodyShape": {
+          "slug": "typosquat",
+          "inputs": "{}",
+          "params": "{}"
+        },
+        "transport": "SSE",
+        "note": "Runs a catalog flow by its id. Keyed only."
+      }
     },
     {
       "name": "whisper_identify",
@@ -511,7 +734,9 @@
         "roles",
         "host_class",
         "band"
-      ]
+      ],
+      "_docPath": "/docs/whisper-graph/procedures/identify",
+      "_docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/identify"
     },
     {
       "name": "whisper_assess",
@@ -544,7 +769,9 @@
         "sub_labels",
         "coverage",
         "evidence"
-      ]
+      ],
+      "_docPath": "/docs/whisper-graph/procedures",
+      "_docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures"
     },
     {
       "name": "whisper_variants",
@@ -575,7 +802,9 @@
         "method",
         "exists",
         "confidence"
-      ]
+      ],
+      "_docPath": "/docs/whisper-graph/procedures/variants",
+      "_docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/variants"
     },
     {
       "name": "whisper_walk",
@@ -607,7 +836,9 @@
         "nearest_known_vendors",
         "no_atlas_match",
         "siblings"
-      ]
+      ],
+      "_docPath": "/docs/whisper-graph/procedures",
+      "_docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures"
     },
     {
       "name": "whisper_explain",
@@ -640,7 +871,9 @@
         "level",
         "explanation",
         "sources"
-      ]
+      ],
+      "_docPath": "/docs/whisper-graph/procedures/explain",
+      "_docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/explain"
     },
     {
       "name": "whisper_pslTldplusone",
@@ -668,7 +901,9 @@
       "_playgroundTryable": true,
       "_resultColumns": [
         "apex"
-      ]
+      ],
+      "_docPath": "/docs/whisper-graph/procedures/helpers",
+      "_docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/helpers"
     },
     {
       "name": "whisper_pslAffiliation",
@@ -701,7 +936,9 @@
         "submitterLogin",
         "evidenceKind",
         "confidence"
-      ]
+      ],
+      "_docPath": "/docs/whisper-graph/procedures/helpers",
+      "_docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/helpers"
     },
     {
       "name": "whisper_origins",
@@ -734,7 +971,9 @@
         "asn",
         "asnName",
         "kind"
-      ]
+      ],
+      "_docPath": "/docs/whisper-graph/procedures/origins",
+      "_docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/origins"
     },
     {
       "name": "whisper_history",
@@ -773,7 +1012,9 @@
         "country",
         "nameServers",
         "cached"
-      ]
+      ],
+      "_docPath": "/docs/whisper-graph/procedures/history",
+      "_docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/history"
     },
     {
       "name": "whisper_historyWhois",
@@ -808,7 +1049,9 @@
         "registrant",
         "country",
         "nameServers"
-      ]
+      ],
+      "_docPath": "/docs/whisper-graph/procedures/history",
+      "_docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/history"
     },
     {
       "name": "whisper_asset",
@@ -838,7 +1081,9 @@
         "asSetName",
         "memberAsn",
         "sourceRir"
-      ]
+      ],
+      "_docPath": "/docs/whisper-graph/procedures",
+      "_docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures"
     },
     {
       "name": "whisper_lookupTorRelay",
@@ -871,7 +1116,9 @@
         "exitAddressCount",
         "source",
         "ingestedAt"
-      ]
+      ],
+      "_docPath": "/docs/whisper-graph/procedures/helpers",
+      "_docsUrl": "https://www.whisper.security/docs/whisper-graph/procedures/helpers"
     },
     {
       "name": "whisper_dbSchema",
@@ -900,7 +1147,9 @@
         "fastPatterns",
         "slowPatterns",
         "bestPractices"
-      ]
+      ],
+      "_docPath": "/docs/whisper-graph/schema",
+      "_docsUrl": "https://www.whisper.security/docs/whisper-graph/schema"
     },
     {
       "name": "whisper_submit",
@@ -916,22 +1165,94 @@
               "indicator",
               "feedback"
             ]
+          },
+          "identifier_kind": {
+            "type": "string",
+            "description": "identifierKind",
+            "default": "ip",
+            "enum": [
+              "ip",
+              "asn",
+              "cert_sha256",
+              "cert_ja3_hash",
+              "cert_ja4_hash",
+              "cert_jarm",
+              "cidr",
+              "whois_pattern",
+              "host_hash_rotating",
+              "url_path_hash"
+            ]
+          },
+          "value": {
+            "type": "string",
+            "description": "value (e.g. 203.0.113.5, AS64496, 198.51.100.0/24)",
+            "default": "203.0.113.5"
+          },
+          "observation_id": {
+            "type": "string",
+            "description": "observationId"
+          },
+          "confidence": {
+            "type": "number",
+            "description": "confidence"
+          },
+          "first_seen": {
+            "type": "string",
+            "description": "firstSeen"
+          },
+          "provenance": {
+            "type": "string",
+            "description": "provenance"
+          },
+          "query": {
+            "type": "string",
+            "description": "query"
+          },
+          "results": {
+            "type": "string",
+            "description": "results"
+          },
+          "comment": {
+            "type": "string",
+            "description": "comment"
+          },
+          "severity": {
+            "type": "string",
+            "description": "severity"
+          },
+          "v": {
+            "type": "number",
+            "description": "v"
           }
         },
         "required": []
       },
       "_exec": {
         "mode": "direct",
-        "cypher": "CALL whisper.submit({kind:$kind, /* + indicator/feedback fields */})",
+        "cypher": "CALL whisper.submit({kind:$kind, identifier_kind:$identifier_kind, value:$value})",
         "params": {
-          "kind": "indicator"
+          "kind": "indicator",
+          "identifier_kind": "ip",
+          "value": "203.0.113.5"
         },
-        "note": "WRITE channel. Anonymous callers are refused with a clear 400 (\"a write channel requires an attributable API key … preserves K-anonymity\"). With a key the call passes auth and validates on the required kind arg."
+        "altForm": "kind:'feedback' takes {observation_id?, query?, results?, comment?, severity?, v?} - all optional, a comment-only report is accepted - and returns the 4-column receipt: observation_id, accepted, advisory, v. Batch: UNWIND $records AS rec CALL whisper.submit(rec) dispatches one call per record, each row in its kind's shape.",
+        "note": "WRITE channel; needs an API key carrying the submit:write scope (anonymous callers get a clear 400: a write channel requires an attributable API key, preserving K-anonymity). Per-kind CLOSED arg schema, live-verified: kind:'indicator' allows {kind, identifier_kind, value, observation_id?, confidence?, first_seen?, provenance?, v?} and requires identifier_kind + value; kind:'feedback' allows {kind, observation_id?, query?, results?, comment?, severity?, v?}. identifier_kind is one of ip, asn, cert_sha256, cert_ja3_hash, cert_ja4_hash, cert_jarm, cidr, whois_pattern (plaintext, normalized server-side) or host_hash_rotating, url_path_hash (submitter-side pre-hashed 64-char SHA-256 hex; a plaintext host/URL is rejected, never auto-hashed). results is a list of strings. An unknown key or kind is rejected with a clear 400 naming the allowed set."
       },
       "_access": "keyed",
       "_requiresKey": true,
       "_playgroundTryable": false,
-      "_resultColumns": []
+      "_resultColumns": [
+        "observation_id",
+        "kind",
+        "accepted",
+        "idempotent",
+        "promotion_state",
+        "k_bucket",
+        "advisory",
+        "v"
+      ],
+      "_docPath": "/docs/cypher-api",
+      "_docsUrl": "https://www.whisper.security/docs/cypher-api"
     }
   ]
 }

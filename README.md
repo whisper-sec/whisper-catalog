@@ -56,7 +56,9 @@ A keyless **write** attempt is refused with a clear message (`a write channel re
 `catalog.json` holds **29 entries**, **all keyed** (it is Cypher). **13** are `playgroundTryable` single-request direct reads; the other **16** are the multi-step flows and the one write channel (`whisper.submit`). Two execution modes:
 
 - **`direct`**: a single Cypher `CALL` you can run against the endpoint as-is. The entry carries the exact `cypher`, its `params`, and the `columns` it returns.
-- **`flow`**: a multi-step read investigation (e.g. `attack-surface`, `indicator`, `typosquat`) orchestrated by a `run_workflow` runner over the same endpoint. The entry carries the anchor step's live columns and the analyst prompt.
+- **`flow`**: a multi-step read investigation (e.g. `attack-surface`, `indicator`, `typosquat`) orchestrated by a `run_workflow` runner over the same endpoint. The entry carries the anchor step's live columns and the analyst prompt. Flows are runnable via the top-level `graph.flowRun` contract: `POST` the entry's `id` as `slug` (plus `inputs`/`params`) to the run endpoint with `X-API-Key`; the result streams back over SSE.
+
+Every entry also carries a **`docPath`**: a root-relative documentation path. Build the absolute docs link as `graph.docsBase + docPath` (e.g. `https://www.whisper.security/docs/whisper-graph/procedures/explain`).
 
 Each entry:
 
@@ -66,6 +68,7 @@ Each entry:
   "title": "Vendor / Operator Identity (whisper.identify)",
   "purpose": "Name the vendor and operator role behind a host or IP in one call.",
   "category": "Infrastructure, supply-chain & compliance / Research & OSINT",
+  "docPath": "/docs/whisper-graph/procedures/identify",
   "inputs": [{ "id": "value", "kind": "any", "paramName": "v", "default": "api.openai.com" }],
   "exec": {
     "mode": "direct",
@@ -92,8 +95,8 @@ node scripts/validate.mjs   # access-correctness + hygiene gate (non-zero on fai
 node scripts/generate.mjs   # emits docs/CATALOG.md, mcp-tools.json, sdk-methods.json
 ```
 
-- **[`mcp-tools.json`](./mcp-tools.json)**: every graph query as an MCP tool descriptor (JSON-Schema `inputSchema` per tool), each marked `_requiresKey: true` and carrying `_playgroundTryable` so a surface can offer a "try without a key" hint on the direct-read verbs.
-- **[`sdk-methods.json`](./sdk-methods.json)**: one method stub per entry (name, params, cypher/runVia, returns, `requiresKey`, `playgroundTryable`) for SDK codegen.
+- **[`mcp-tools.json`](./mcp-tools.json)**: every graph query as an MCP tool descriptor (JSON-Schema `inputSchema` per tool), each marked `_requiresKey: true` and carrying `_playgroundTryable` so a surface can offer a "try without a key" hint on the direct-read verbs, plus `_docPath`/`_docsUrl` docs links and, on flow tools, the ready-to-POST `_flowRun` contract.
+- **[`sdk-methods.json`](./sdk-methods.json)**: one method stub per entry (name, params, cypher/runVia/flowRun, returns, `requiresKey`, `playgroundTryable`, `docPath`/`docsUrl`) for SDK codegen.
 - **[`docs/CATALOG.md`](./docs/CATALOG.md)**: the human-readable table.
 
 All scripts are **Node stdlib only**: no dependencies, no build step.
