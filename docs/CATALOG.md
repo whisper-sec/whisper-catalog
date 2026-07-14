@@ -9,39 +9,41 @@ The portable, provenance-backed catalog of `whisper.security` graph queries and 
 - **Auth:** API key required for all queries (X-API-Key)
 - **Keyed:** unlimited
 - **Playground:** keyless is a rate-limited taste only (100/window); not for production. If it is Cypher it needs a key
+- **Docs base:** `https://www.whisper.security` (each entry's docs link = docsBase + docPath)
+- **Flow run:** `POST https://console.whisper.security/api/gallery/run` (header `X-API-Key`, body `{"slug":"<flow id>","inputs":{},"params":{}}`, SSE stream). Runs a catalog flow by its id. Keyed only.
 
 29 entries, **all keyed** (it is Cypher; Cypher needs a key). 13 are `playground · tryable` (single-request direct reads you can *taste* keyless within the 100/window playground).
 
-| id | purpose | access | inputs |
-|----|---------|--------|--------|
-| `anycast-dns-root-sovereignty` | Assess how resilient a country's core DNS is if it were cut off from the world. | keyed | `country` (e.g. "BR") |
-| `attack-path` | Find the choke points an attacker would target - and how any two things connect. | keyed | `value` (e.g. "paypal.com"), `other` (e.g. "paypa1.com") |
-| `attack-surface` | Map everything about a domain that's exposed to the outside world, scored for risk. | keyed | `domain` (e.g. "github.com") |
-| `bgp-hijack-exposure` | Grade a network's routing security and trace conflicts to the domains they'd expose. | keyed | `value` (e.g. "AS13335") |
-| `blast-radius` | Pick one asset and see what would break if it failed - and what it depends on in turn. | keyed | `indicator` (e.g. "ns1.dreamhost.com") |
-| `build-takedown-evidence-package` | Assemble a ready-to-submit dossier for taking down a scam or phishing domain. | keyed | `domain` (e.g. "ickaoex.com") |
-| `discover-ai-agent-infrastructure` | Map an organisation's externally visible AI and agent endpoints from the outside. | keyed | `value` (e.g. "github.com") |
-| `indicator` | Investigate one suspicious domain, IP, or network in depth and get a clear picture of the threat and everything connected to it. | keyed | `indicator` (e.g. "theblackservicenetwork.com") |
-| `indicator-enrichment` | Turn one domain or IP into a full context card - owner, hosting, mail, location, reputation at a glance. | keyed | `value` (e.g. "google.com") |
-| `infrastructure-mapping` | Trace one indicator to its true owner and full estate, even behind privacy screens and CDNs. | keyed | `value` (e.g. "cloudflare.com") |
-| `map-supply-chain-concentration` | Grade an organisation for over-reliance on single providers, regions, or facilities. | keyed | `domain` (e.g. "atlassian.com") |
-| `nameserver-hijack-dns-consistency` | Check a domain's name servers for the misconfigurations that enable DNS hijacking. | keyed | `value` (e.g. "google.com") |
-| `route-health` | Profile a network or address block into a full routing and reachability health card. | keyed | `target` (e.g. "1.1.1.0/24") |
-| `subdomain-takeover` | Find subdomains that point at abandoned services an attacker could claim. | keyed | `value` (e.g. "github.com") |
-| `typosquat` | Find registered look-alikes of your brand and check which ones are dangerous. | keyed | `domain` (e.g. "paypal.com") |
-| `identify` | Name the vendor and operator role behind a host or IP in one call. | keyed · playground | `v` (e.g. "api.openai.com") |
-| `assess` | Get a labelled threat posture for a host or IP - malicious, benign, or unknown. | keyed · playground | `v` (e.g. "8.8.8.8") |
-| `variants` | Generate look-alike domain variants of a brand and see which are registered. | keyed · playground | `v` (e.g. "paypal.com") |
-| `walk` | Walk the graph to the nearest known vendors behind a host, with the channel and confidence. | keyed · playground | `v` (e.g. "cloudflare.com") |
-| `explain` | Score an indicator against the threat feeds and explain exactly why. | keyed · playground | `v` (e.g. "paypal.com") |
-| `psl-tldplusone` | Reduce any hostname to its registrable apex (eTLD+1) via the Public Suffix List. | keyed · playground | `v` (e.g. "www.foo.co.uk") |
-| `psl-affiliation` | Check whether a domain is a PSL private-section suffix and who submitted it. | keyed · playground | `v` (e.g. "paypal.com") |
-| `origins` | Find the real origin IPs behind a CDN-fronted domain, ranked by confidence. | keyed · playground | `v` (e.g. "cloudflare.com") |
-| `history` | Get the full historical WHOIS timeline for a domain. | keyed · playground | `v` (e.g. "paypal.com") |
-| `history-whois` | Get the WHOIS-only historical timeline for a domain. | keyed · playground | `v` (e.g. "paypal.com") |
-| `asset` | List the member ASNs of an AS-SET macro. | keyed · playground | `v` (e.g. "AS-CLOUDFLARE") |
-| `lookup-tor-relay` | Check whether an IP is a known Tor exit relay. | keyed · playground | `v` (e.g. "185.220.101.33") |
-| `db-schema` | List every node and relationship type in the graph with counts and examples. | keyed · playground | _none_ |
-| `submit` | Contribute an indicator observation or feedback back into the graph (requires an API key). | keyed | `kind` (e.g. "indicator") |
+| id | purpose | access | inputs | docs |
+|----|---------|--------|--------|------|
+| `anycast-dns-root-sovereignty` | Assess how resilient a country's core DNS is if it were cut off from the world. | keyed | `country` (e.g. "BR") | [/docs/recipes/compliance](https://www.whisper.security/docs/recipes/compliance) |
+| `attack-path` | Find the choke points an attacker would target - and how any two things connect. | keyed | `value` (e.g. "paypal.com"), `other` (e.g. "paypa1.com") | [/docs/recipes/attack-path](https://www.whisper.security/docs/recipes/attack-path) |
+| `attack-surface` | Map everything about a domain that's exposed to the outside world, scored for risk. | keyed | `domain` (e.g. "github.com") | [/docs/recipes/pentest-recon](https://www.whisper.security/docs/recipes/pentest-recon) |
+| `bgp-hijack-exposure` | Grade a network's routing security and trace conflicts to the domains they'd expose. | keyed | `value` (e.g. "AS13335") | [/docs/recipes/bgp-routing](https://www.whisper.security/docs/recipes/bgp-routing) |
+| `blast-radius` | Pick one asset and see what would break if it failed - and what it depends on in turn. | keyed | `indicator` (e.g. "ns1.dreamhost.com") | [/docs/recipes/soc](https://www.whisper.security/docs/recipes/soc) |
+| `build-takedown-evidence-package` | Assemble a ready-to-submit dossier for taking down a scam or phishing domain. | keyed | `domain` (e.g. "ickaoex.com") | [/docs/recipes/threat-intel](https://www.whisper.security/docs/recipes/threat-intel) |
+| `discover-ai-agent-infrastructure` | Map an organisation's externally visible AI and agent endpoints from the outside. | keyed | `value` (e.g. "github.com") | [/docs/recipes/pentest-recon](https://www.whisper.security/docs/recipes/pentest-recon) |
+| `indicator` | Investigate one suspicious domain, IP, or network in depth and get a clear picture of the threat and everything connected to it. | keyed | `indicator` (e.g. "theblackservicenetwork.com") | [/docs/recipes/soc](https://www.whisper.security/docs/recipes/soc) |
+| `indicator-enrichment` | Turn one domain or IP into a full context card - owner, hosting, mail, location, reputation at a glance. | keyed | `value` (e.g. "google.com") | [/docs/recipes/dns-email](https://www.whisper.security/docs/recipes/dns-email) |
+| `infrastructure-mapping` | Trace one indicator to its true owner and full estate, even behind privacy screens and CDNs. | keyed | `value` (e.g. "cloudflare.com") | [/docs/recipes/compliance](https://www.whisper.security/docs/recipes/compliance) |
+| `map-supply-chain-concentration` | Grade an organisation for over-reliance on single providers, regions, or facilities. | keyed | `domain` (e.g. "atlassian.com") | [/docs/recipes/compliance](https://www.whisper.security/docs/recipes/compliance) |
+| `nameserver-hijack-dns-consistency` | Check a domain's name servers for the misconfigurations that enable DNS hijacking. | keyed | `value` (e.g. "google.com") | [/docs/recipes/dns-email](https://www.whisper.security/docs/recipes/dns-email) |
+| `route-health` | Profile a network or address block into a full routing and reachability health card. | keyed | `target` (e.g. "1.1.1.0/24") | [/docs/recipes/bgp-routing](https://www.whisper.security/docs/recipes/bgp-routing) |
+| `subdomain-takeover` | Find subdomains that point at abandoned services an attacker could claim. | keyed | `value` (e.g. "github.com") | [/docs/recipes/pentest-recon](https://www.whisper.security/docs/recipes/pentest-recon) |
+| `typosquat` | Find registered look-alikes of your brand and check which ones are dangerous. | keyed | `domain` (e.g. "paypal.com") | [/docs/recipes/brand-protection](https://www.whisper.security/docs/recipes/brand-protection) |
+| `identify` | Name the vendor and operator role behind a host or IP in one call. | keyed · playground | `v` (e.g. "api.openai.com") | [/docs/whisper-graph/procedures/identify](https://www.whisper.security/docs/whisper-graph/procedures/identify) |
+| `assess` | Get a labelled threat posture for a host or IP - malicious, benign, or unknown. | keyed · playground | `v` (e.g. "8.8.8.8") | [/docs/whisper-graph/procedures](https://www.whisper.security/docs/whisper-graph/procedures) |
+| `variants` | Generate look-alike domain variants of a brand and see which are registered. | keyed · playground | `v` (e.g. "paypal.com") | [/docs/whisper-graph/procedures/variants](https://www.whisper.security/docs/whisper-graph/procedures/variants) |
+| `walk` | Walk the graph to the nearest known vendors behind a host, with the channel and confidence. | keyed · playground | `v` (e.g. "cloudflare.com") | [/docs/whisper-graph/procedures](https://www.whisper.security/docs/whisper-graph/procedures) |
+| `explain` | Score an indicator against the threat feeds and explain exactly why. | keyed · playground | `v` (e.g. "paypal.com") | [/docs/whisper-graph/procedures/explain](https://www.whisper.security/docs/whisper-graph/procedures/explain) |
+| `psl-tldplusone` | Reduce any hostname to its registrable apex (eTLD+1) via the Public Suffix List. | keyed · playground | `v` (e.g. "www.foo.co.uk") | [/docs/whisper-graph/procedures/helpers](https://www.whisper.security/docs/whisper-graph/procedures/helpers) |
+| `psl-affiliation` | Check whether a domain is a PSL private-section suffix and who submitted it. | keyed · playground | `v` (e.g. "paypal.com") | [/docs/whisper-graph/procedures/helpers](https://www.whisper.security/docs/whisper-graph/procedures/helpers) |
+| `origins` | Find the real origin IPs behind a CDN-fronted domain, ranked by confidence. | keyed · playground | `v` (e.g. "cloudflare.com") | [/docs/whisper-graph/procedures/origins](https://www.whisper.security/docs/whisper-graph/procedures/origins) |
+| `history` | Get the full historical WHOIS timeline for a domain. | keyed · playground | `v` (e.g. "paypal.com") | [/docs/whisper-graph/procedures/history](https://www.whisper.security/docs/whisper-graph/procedures/history) |
+| `history-whois` | Get the WHOIS-only historical timeline for a domain. | keyed · playground | `v` (e.g. "paypal.com") | [/docs/whisper-graph/procedures/history](https://www.whisper.security/docs/whisper-graph/procedures/history) |
+| `asset` | List the member ASNs of an AS-SET macro. | keyed · playground | `v` (e.g. "AS-CLOUDFLARE") | [/docs/whisper-graph/procedures](https://www.whisper.security/docs/whisper-graph/procedures) |
+| `lookup-tor-relay` | Check whether an IP is a known Tor exit relay. | keyed · playground | `v` (e.g. "185.220.101.33") | [/docs/whisper-graph/procedures/helpers](https://www.whisper.security/docs/whisper-graph/procedures/helpers) |
+| `db-schema` | List every node and relationship type in the graph with counts and examples. | keyed · playground | _none_ | [/docs/whisper-graph/schema](https://www.whisper.security/docs/whisper-graph/schema) |
+| `submit` | Contribute an indicator observation or feedback back into the graph (requires an API key). | keyed | `kind` (e.g. "indicator"), `identifier_kind` (e.g. "ip"), `value` (e.g. "203.0.113.5"), `observation_id`, `confidence`, `first_seen`, `provenance`, `query`, `results`, `comment`, `severity`, `v` | [/docs/cypher-api](https://www.whisper.security/docs/cypher-api) |
 
-_Generated at 2026-07-14T08:52:56Z. Every entry is provenance-backed (live-probed shape)._
+_Generated at 2026-07-14T12:17:30Z. Every entry is provenance-backed (live-probed shape)._

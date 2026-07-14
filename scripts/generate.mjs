@@ -24,10 +24,20 @@ const inputList = e => e.inputs.length
   ? e.inputs.map(i => `\`${i.paramName}\`${i.default !== undefined ? ` (e.g. ${JSON.stringify(i.default)})` : ''}`).join(', ')
   : '_none_';
 
+// Docs deep-link: every entry carries a root-relative docPath; the absolute URL is
+// docsBase + docPath, so any channel can render a "docs" link with zero extra config.
+const docsUrl = e => catalog.graph.docsBase + e.docPath;
+
+// Flow-run contract: flow entries are runnable via the gallery run endpoint (SSE).
+// The per-entry copy carries the entry's own id as the concrete slug.
+const flowRunFor = e => e.exec.mode === 'flow'
+  ? { ...catalog.graph.flowRun, bodyShape: { ...catalog.graph.flowRun.bodyShape, slug: e.id } }
+  : null;
+
 // ---- docs/CATALOG.md ----
 const accessCell = e => `${e.access}${e.playgroundTryable ? ' · playground' : ''}`;
 const rows = entries.map(e =>
-  `| \`${e.id}\` | ${e.purpose.replace(/\|/g, '\\|')} | ${accessCell(e)} | ${inputList(e).replace(/\|/g, '\\|')} |`
+  `| \`${e.id}\` | ${e.purpose.replace(/\|/g, '\\|')} | ${accessCell(e)} | ${inputList(e).replace(/\|/g, '\\|')} | [${e.docPath}](${docsUrl(e)}) |`
 ).join('\n');
 
 const tryableN = entries.filter(e => e.playgroundTryable).length;
@@ -43,11 +53,13 @@ The portable, provenance-backed catalog of \`whisper.security\` graph queries an
 - **Auth:** ${catalog.graph.auth}
 - **Keyed:** ${catalog.graph.keyed}
 - **Playground:** ${catalog.graph.playground}
+- **Docs base:** \`${catalog.graph.docsBase}\` (each entry's docs link = docsBase + docPath)
+- **Flow run:** \`${catalog.graph.flowRun.method} ${catalog.graph.flowRun.endpoint}\` (header \`${catalog.graph.flowRun.auth}\`, body \`{"slug":"<flow id>","inputs":{},"params":{}}\`, ${catalog.graph.flowRun.transport} stream). ${catalog.graph.flowRun.note}
 
 ${entries.length} entries, **all keyed** (it is Cypher; Cypher needs a key). ${tryableN} are \`playground · tryable\` (single-request direct reads you can *taste* keyless within the 100/window playground).
 
-| id | purpose | access | inputs |
-|----|---------|--------|--------|
+| id | purpose | access | inputs | docs |
+|----|---------|--------|--------|------|
 ${rows}
 
 _Generated at ${catalog.generatedAt}. Every entry is provenance-backed (live-probed shape)._
@@ -66,8 +78,9 @@ const mcpTools = entries.map(e => {
       ...(i.default !== undefined ? { default: i.default } : {}),
       ...(i.options ? { enum: i.options } : {}),
     };
-    if (i.default === undefined) required.push(i.paramName);
+    if (i.default === undefined && !i.optional) required.push(i.paramName);
   }
+  const flowRun = flowRunFor(e);
   return {
     name: `whisper_${camel(e.id)}`,
     description: `${e.purpose} ${e.why ?? ''}`.trim(),
@@ -77,13 +90,18 @@ const mcpTools = entries.map(e => {
     _requiresKey: true,              // graph tools need an API key
     _playgroundTryable: e.playgroundTryable, // sample keyless in the 100/window playground?
     _resultColumns: e.columns,
+    _docPath: e.docPath,
+    _docsUrl: docsUrl(e),
+    ...(flowRun ? { _flowRun: flowRun } : {}),
   };
 });
 writeFileSync(join(root, 'mcp-tools.json'), JSON.stringify({
   generatedAt: catalog.generatedAt,
   endpoint: catalog.graph.endpoint,
   auth: catalog.graph.auth,
-  note: 'Every tool here runs Cypher against the whisper.security graph, so every tool is KEYED (supply X-API-Key). The keyless half of Whisper is the non-Cypher identity tools (verify/rdap), which are not in this catalog. Tools with _playgroundTryable:true can be sampled without a key in the rate-limited playground (100/window).',
+  docsBase: catalog.graph.docsBase,
+  flowRun: catalog.graph.flowRun,
+  note: 'Every tool here runs Cypher against the whisper.security graph, so every tool is KEYED (supply X-API-Key). The keyless half of Whisper is the non-Cypher identity tools (verify/rdap), which are not in this catalog. Tools with _playgroundTryable:true can be sampled without a key in the rate-limited playground (100/window). Each tool carries _docPath/_docsUrl (docsBase + docPath) for its documentation page; flow tools carry _flowRun (POST the slug to the run endpoint, SSE stream).',
   tools: mcpTools,
 }, null, 2) + '\n');
 
@@ -94,16 +112,21 @@ const sdkMethods = entries.map(e => ({
   requiresKey: true,                 // it is Cypher
   playgroundTryable: e.playgroundTryable,
   mode: e.exec.mode,
-  params: e.inputs.map(i => ({ name: i.paramName, kind: i.kind, required: i.default === undefined, default: i.default ?? null })),
+  params: e.inputs.map(i => ({ name: i.paramName, kind: i.kind, required: i.default === undefined && !i.optional, default: i.default ?? null })),
   cypher: e.exec.cypher ?? null,
   runVia: e.exec.runVia ?? null,
+  flowRun: flowRunFor(e),
   returns: e.columns,
   summary: e.purpose,
+  docPath: e.docPath,
+  docsUrl: docsUrl(e),
 }));
 writeFileSync(join(root, 'sdk-methods.json'), JSON.stringify({
   generatedAt: catalog.generatedAt,
   endpoint: catalog.graph.endpoint,
   auth: catalog.graph.auth,
+  docsBase: catalog.graph.docsBase,
+  flowRun: catalog.graph.flowRun,
   methods: sdkMethods,
 }, null, 2) + '\n');
 

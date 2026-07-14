@@ -17,6 +17,9 @@
 //   4. The whisper.agents control plane is NEVER exposed as a catalog entry.
 //   5. No forbidden tokens (secrets / internal infra / AI attribution) anywhere.
 //   6. ids are unique.
+//   7. Every entry carries a root-relative docPath (/docs/...), and the graph block
+//      carries docsBase + the flowRun contract, so every channel can build docs links
+//      (docsBase + docPath) and run flows without extra configuration.
 
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -45,6 +48,15 @@ const FORBIDDEN = [
 if (catalog.schemaVersion !== 1) errors.push(`schemaVersion must be 1, got ${catalog.schemaVersion}`);
 if (!Array.isArray(catalog.entries) || catalog.entries.length === 0) errors.push('entries[] missing/empty');
 
+// Rule 7 (graph block): docsBase + the flowRun contract are part of the catalog's contract.
+const DOC_PATH_RE = /^\/docs(\/[a-z0-9-]+)+$/;
+if (typeof catalog.graph?.docsBase !== 'string' || !/^https:\/\/[a-z0-9.-]+$/.test(catalog.graph.docsBase))
+  errors.push(`graph.docsBase must be an https origin with no trailing slash (got ${JSON.stringify(catalog.graph?.docsBase)})`);
+const fr = catalog.graph?.flowRun;
+if (!fr || typeof fr.endpoint !== 'string' || !fr.endpoint.startsWith('https://')
+    || fr.method !== 'POST' || fr.auth !== 'X-API-Key' || typeof fr.bodyShape?.slug !== 'string')
+  errors.push('graph.flowRun must carry {endpoint(https), method:POST, auth:X-API-Key, bodyShape.slug}');
+
 const seen = new Set();
 for (const e of catalog.entries ?? []) {
   const at = `entry ${e.id ?? '<no-id>'}`;
@@ -53,6 +65,8 @@ for (const e of catalog.entries ?? []) {
   if (!e.purpose) errors.push(`${at}: missing purpose`);
   if (!e.prompt) errors.push(`${at}: missing prompt`);
   if (e.provenance !== true) errors.push(`${at}: provenance must be true`);
+  if (typeof e.docPath !== 'string' || !DOC_PATH_RE.test(e.docPath))
+    errors.push(`${at}: docPath must be a root-relative /docs/... path (got ${JSON.stringify(e.docPath)})`);
   if (e.id) {
     if (seen.has(e.id)) errors.push(`${at}: duplicate id`);
     seen.add(e.id);
