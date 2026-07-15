@@ -9,11 +9,12 @@
     "auth": "X-API-Key",
     "bodyShape": {
       "slug": "<flow id>",
-      "inputs": "{}",
-      "params": "{}"
+      "value": "<the flow's input value, e.g. a domain>",
+      "values": "[] (bulk values, for a list input)",
+      "paramValues": "{} (the flow's params, keyed by name)"
     },
     "transport": "SSE",
-    "note": "Runs a catalog flow by its id. Keyed only."
+    "note": "Runs a catalog flow by its id. Keyed only. The input travels as top-level `value` (or `values` for a list input) and params as `paramValues` - an unknown body field is ignored and the flow silently runs on its DEFAULT input, so use these exact names."
   },
   "note": "The whisper.security graph is two-tier. Tools with _requiresKey:false (== _access \"keyless\", the direct read procedures: assess, identify, explain, variants, walk, origins, history, ...) run WITHOUT a key, rate-limited (~100/window) with real answers; send X-API-Key to lift the limit. Tools with _requiresKey:true (raw Cypher, the multi-step flows, and submit) need X-API-Key. Each tool carries _docPath/_docsUrl (docsBase + docPath) for its documentation page; flow tools carry _flowRun (POST the slug to the run endpoint, SSE stream).",
   "tools": [
@@ -55,11 +56,12 @@
         "auth": "X-API-Key",
         "bodyShape": {
           "slug": "anycast-dns-root-sovereignty",
-          "inputs": "{}",
-          "params": "{}"
+          "value": "<the flow's input value, e.g. a domain>",
+          "values": "[] (bulk values, for a list input)",
+          "paramValues": "{} (the flow's params, keyed by name)"
         },
         "transport": "SSE",
-        "note": "Runs a catalog flow by its id. Keyed only."
+        "note": "Runs a catalog flow by its id. Keyed only. The input travels as top-level `value` (or `values` for a list input) and params as `paramValues` - an unknown body field is ignored and the flow silently runs on its DEFAULT input, so use these exact names."
       }
     },
     {
@@ -112,11 +114,12 @@
         "auth": "X-API-Key",
         "bodyShape": {
           "slug": "attack-path",
-          "inputs": "{}",
-          "params": "{}"
+          "value": "<the flow's input value, e.g. a domain>",
+          "values": "[] (bulk values, for a list input)",
+          "paramValues": "{} (the flow's params, keyed by name)"
         },
         "transport": "SSE",
-        "note": "Runs a catalog flow by its id. Keyed only."
+        "note": "Runs a catalog flow by its id. Keyed only. The input travels as top-level `value` (or `values` for a list input) and params as `paramValues` - an unknown body field is ignored and the flow silently runs on its DEFAULT input, so use these exact names."
       }
     },
     {
@@ -164,11 +167,12 @@
         "auth": "X-API-Key",
         "bodyShape": {
           "slug": "attack-surface",
-          "inputs": "{}",
-          "params": "{}"
+          "value": "<the flow's input value, e.g. a domain>",
+          "values": "[] (bulk values, for a list input)",
+          "paramValues": "{} (the flow's params, keyed by name)"
         },
         "transport": "SSE",
-        "note": "Runs a catalog flow by its id. Keyed only."
+        "note": "Runs a catalog flow by its id. Keyed only. The input travels as top-level `value` (or `values` for a list input) and params as `paramValues` - an unknown body field is ignored and the flow silently runs on its DEFAULT input, so use these exact names."
       }
     },
     {
@@ -207,11 +211,12 @@
         "auth": "X-API-Key",
         "bodyShape": {
           "slug": "bgp-hijack-exposure",
-          "inputs": "{}",
-          "params": "{}"
+          "value": "<the flow's input value, e.g. a domain>",
+          "values": "[] (bulk values, for a list input)",
+          "paramValues": "{} (the flow's params, keyed by name)"
         },
         "transport": "SSE",
-        "note": "Runs a catalog flow by its id. Keyed only."
+        "note": "Runs a catalog flow by its id. Keyed only. The input travels as top-level `value` (or `values` for a list input) and params as `paramValues` - an unknown body field is ignored and the flow silently runs on its DEFAULT input, so use these exact names."
       }
     },
     {
@@ -250,11 +255,12 @@
         "auth": "X-API-Key",
         "bodyShape": {
           "slug": "blast-radius",
-          "inputs": "{}",
-          "params": "{}"
+          "value": "<the flow's input value, e.g. a domain>",
+          "values": "[] (bulk values, for a list input)",
+          "paramValues": "{} (the flow's params, keyed by name)"
         },
         "transport": "SSE",
-        "note": "Runs a catalog flow by its id. Keyed only."
+        "note": "Runs a catalog flow by its id. Keyed only. The input travels as top-level `value` (or `values` for a list input) and params as `paramValues` - an unknown body field is ignored and the flow silently runs on its DEFAULT input, so use these exact names."
       }
     },
     {
@@ -301,11 +307,12 @@
         "auth": "X-API-Key",
         "bodyShape": {
           "slug": "build-takedown-evidence-package",
-          "inputs": "{}",
-          "params": "{}"
+          "value": "<the flow's input value, e.g. a domain>",
+          "values": "[] (bulk values, for a list input)",
+          "paramValues": "{} (the flow's params, keyed by name)"
         },
         "transport": "SSE",
-        "note": "Runs a catalog flow by its id. Keyed only."
+        "note": "Runs a catalog flow by its id. Keyed only. The input travels as top-level `value` (or `values` for a list input) and params as `paramValues` - an unknown body field is ignored and the flow silently runs on its DEFAULT input, so use these exact names."
       }
     },
     {
@@ -343,11 +350,12 @@
         "auth": "X-API-Key",
         "bodyShape": {
           "slug": "discover-ai-agent-infrastructure",
-          "inputs": "{}",
-          "params": "{}"
+          "value": "<the flow's input value, e.g. a domain>",
+          "values": "[] (bulk values, for a list input)",
+          "paramValues": "{} (the flow's params, keyed by name)"
         },
         "transport": "SSE",
-        "note": "Runs a catalog flow by its id. Keyed only."
+        "note": "Runs a catalog flow by its id. Keyed only. The input travels as top-level `value` (or `values` for a list input) and params as `paramValues` - an unknown body field is ignored and the flow silently runs on its DEFAULT input, so use these exact names."
       }
     },
     {
@@ -390,11 +398,12 @@
         "auth": "X-API-Key",
         "bodyShape": {
           "slug": "indicator",
-          "inputs": "{}",
-          "params": "{}"
+          "value": "<the flow's input value, e.g. a domain>",
+          "values": "[] (bulk values, for a list input)",
+          "paramValues": "{} (the flow's params, keyed by name)"
         },
         "transport": "SSE",
-        "note": "Runs a catalog flow by its id. Keyed only."
+        "note": "Runs a catalog flow by its id. Keyed only. The input travels as top-level `value` (or `values` for a list input) and params as `paramValues` - an unknown body field is ignored and the flow silently runs on its DEFAULT input, so use these exact names."
       }
     },
     {
@@ -432,11 +441,12 @@
         "auth": "X-API-Key",
         "bodyShape": {
           "slug": "indicator-enrichment",
-          "inputs": "{}",
-          "params": "{}"
+          "value": "<the flow's input value, e.g. a domain>",
+          "values": "[] (bulk values, for a list input)",
+          "paramValues": "{} (the flow's params, keyed by name)"
         },
         "transport": "SSE",
-        "note": "Runs a catalog flow by its id. Keyed only."
+        "note": "Runs a catalog flow by its id. Keyed only. The input travels as top-level `value` (or `values` for a list input) and params as `paramValues` - an unknown body field is ignored and the flow silently runs on its DEFAULT input, so use these exact names."
       }
     },
     {
@@ -478,11 +488,12 @@
         "auth": "X-API-Key",
         "bodyShape": {
           "slug": "infrastructure-mapping",
-          "inputs": "{}",
-          "params": "{}"
+          "value": "<the flow's input value, e.g. a domain>",
+          "values": "[] (bulk values, for a list input)",
+          "paramValues": "{} (the flow's params, keyed by name)"
         },
         "transport": "SSE",
-        "note": "Runs a catalog flow by its id. Keyed only."
+        "note": "Runs a catalog flow by its id. Keyed only. The input travels as top-level `value` (or `values` for a list input) and params as `paramValues` - an unknown body field is ignored and the flow silently runs on its DEFAULT input, so use these exact names."
       }
     },
     {
@@ -522,11 +533,12 @@
         "auth": "X-API-Key",
         "bodyShape": {
           "slug": "map-supply-chain-concentration",
-          "inputs": "{}",
-          "params": "{}"
+          "value": "<the flow's input value, e.g. a domain>",
+          "values": "[] (bulk values, for a list input)",
+          "paramValues": "{} (the flow's params, keyed by name)"
         },
         "transport": "SSE",
-        "note": "Runs a catalog flow by its id. Keyed only."
+        "note": "Runs a catalog flow by its id. Keyed only. The input travels as top-level `value` (or `values` for a list input) and params as `paramValues` - an unknown body field is ignored and the flow silently runs on its DEFAULT input, so use these exact names."
       }
     },
     {
@@ -565,11 +577,12 @@
         "auth": "X-API-Key",
         "bodyShape": {
           "slug": "nameserver-hijack-dns-consistency",
-          "inputs": "{}",
-          "params": "{}"
+          "value": "<the flow's input value, e.g. a domain>",
+          "values": "[] (bulk values, for a list input)",
+          "paramValues": "{} (the flow's params, keyed by name)"
         },
         "transport": "SSE",
-        "note": "Runs a catalog flow by its id. Keyed only."
+        "note": "Runs a catalog flow by its id. Keyed only. The input travels as top-level `value` (or `values` for a list input) and params as `paramValues` - an unknown body field is ignored and the flow silently runs on its DEFAULT input, so use these exact names."
       }
     },
     {
@@ -609,11 +622,12 @@
         "auth": "X-API-Key",
         "bodyShape": {
           "slug": "route-health",
-          "inputs": "{}",
-          "params": "{}"
+          "value": "<the flow's input value, e.g. a domain>",
+          "values": "[] (bulk values, for a list input)",
+          "paramValues": "{} (the flow's params, keyed by name)"
         },
         "transport": "SSE",
-        "note": "Runs a catalog flow by its id. Keyed only."
+        "note": "Runs a catalog flow by its id. Keyed only. The input travels as top-level `value` (or `values` for a list input) and params as `paramValues` - an unknown body field is ignored and the flow silently runs on its DEFAULT input, so use these exact names."
       }
     },
     {
@@ -651,11 +665,12 @@
         "auth": "X-API-Key",
         "bodyShape": {
           "slug": "subdomain-takeover",
-          "inputs": "{}",
-          "params": "{}"
+          "value": "<the flow's input value, e.g. a domain>",
+          "values": "[] (bulk values, for a list input)",
+          "paramValues": "{} (the flow's params, keyed by name)"
         },
         "transport": "SSE",
-        "note": "Runs a catalog flow by its id. Keyed only."
+        "note": "Runs a catalog flow by its id. Keyed only. The input travels as top-level `value` (or `values` for a list input) and params as `paramValues` - an unknown body field is ignored and the flow silently runs on its DEFAULT input, so use these exact names."
       }
     },
     {
@@ -695,11 +710,12 @@
         "auth": "X-API-Key",
         "bodyShape": {
           "slug": "typosquat",
-          "inputs": "{}",
-          "params": "{}"
+          "value": "<the flow's input value, e.g. a domain>",
+          "values": "[] (bulk values, for a list input)",
+          "paramValues": "{} (the flow's params, keyed by name)"
         },
         "transport": "SSE",
-        "note": "Runs a catalog flow by its id. Keyed only."
+        "note": "Runs a catalog flow by its id. Keyed only. The input travels as top-level `value` (or `values` for a list input) and params as `paramValues` - an unknown body field is ignored and the flow silently runs on its DEFAULT input, so use these exact names."
       }
     },
     {

@@ -54,7 +54,7 @@ The portable, provenance-backed catalog of \`whisper.security\` graph queries an
 - **Keyed:** ${catalog.graph.keyed}
 - **Playground:** ${catalog.graph.playground}
 - **Docs base:** \`${catalog.graph.docsBase}\` (each entry's docs link = docsBase + docPath)
-- **Flow run:** \`${catalog.graph.flowRun.method} ${catalog.graph.flowRun.endpoint}\` (header \`${catalog.graph.flowRun.auth}\`, body \`{"slug":"<flow id>","inputs":{},"params":{}}\`, ${catalog.graph.flowRun.transport} stream). ${catalog.graph.flowRun.note}
+- **Flow run:** \`${catalog.graph.flowRun.method} ${catalog.graph.flowRun.endpoint}\` (header \`${catalog.graph.flowRun.auth}\`, body \`{"slug":"<flow id>","value":"<input>","paramValues":{}}\`, ${catalog.graph.flowRun.transport} stream). ${catalog.graph.flowRun.note}
 
 ${entries.length} entries, two-tier: **${tryableN} keyless** direct read procedures (no key, rate-limited ~100/window, real answers -- add a key to lift the limit) and **${entries.length - tryableN} keyed** (raw Cypher, the multi-step flows, and submit need \`X-API-Key\`).
 

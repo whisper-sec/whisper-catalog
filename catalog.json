@@ -16,11 +16,12 @@
       "auth": "X-API-Key",
       "bodyShape": {
         "slug": "<flow id>",
-        "inputs": "{}",
-        "params": "{}"
+        "value": "<the flow's input value, e.g. a domain>",
+        "values": "[] (bulk values, for a list input)",
+        "paramValues": "{} (the flow's params, keyed by name)"
       },
       "transport": "SSE",
-      "note": "Runs a catalog flow by its id. Keyed only."
+      "note": "Runs a catalog flow by its id. Keyed only. The input travels as top-level `value` (or `values` for a list input) and params as `paramValues` - an unknown body field is ignored and the flow silently runs on its DEFAULT input, so use these exact names."
     }
   },
   "entries": [

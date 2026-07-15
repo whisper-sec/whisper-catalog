@@ -10,7 +10,7 @@ The portable, provenance-backed catalog of `whisper.security` graph queries and 
 - **Keyed:** Unlimited with X-API-Key. Required for raw Cypher, the multi-step flows, and submit; optional (lifts the rate limit) on the keyless read procedures.
 - **Playground:** The keyless direct read procedures are real value with zero setup, only rate-limited (~100/window). Add your key for unlimited use and for raw Cypher + flows + submit.
 - **Docs base:** `https://www.whisper.security` (each entry's docs link = docsBase + docPath)
-- **Flow run:** `POST https://console.whisper.security/api/gallery/run` (header `X-API-Key`, body `{"slug":"<flow id>","inputs":{},"params":{}}`, SSE stream). Runs a catalog flow by its id. Keyed only.
+- **Flow run:** `POST https://console.whisper.security/api/gallery/run` (header `X-API-Key`, body `{"slug":"<flow id>","value":"<input>","paramValues":{}}`, SSE stream). Runs a catalog flow by its id. Keyed only. The input travels as top-level `value` (or `values` for a list input) and params as `paramValues` - an unknown body field is ignored and the flow silently runs on its DEFAULT input, so use these exact names.
 
 29 entries, two-tier: **13 keyless** direct read procedures (no key, rate-limited ~100/window, real answers -- add a key to lift the limit) and **16 keyed** (raw Cypher, the multi-step flows, and submit need `X-API-Key`).
 
