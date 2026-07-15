@@ -1,7 +1,7 @@
 {
   "generatedAt": "2026-07-14T12:17:30Z",
   "endpoint": "https://graph.whisper.security/api/query",
-  "auth": "API key required for all queries (X-API-Key)",
+  "auth": "Two tiers. The direct read procedures (assess, identify, explain, variants, walk, origins, history, ...) serve KEYLESS: no key, rate-limited (~100/window), real production-shaped answers. Raw Cypher, the multi-step flows, and submit are KEYED (X-API-Key). Sending your key on any call lifts the rate limit.",
   "docsBase": "https://www.whisper.security",
   "flowRun": {
     "endpoint": "https://console.whisper.security/api/gallery/run",
@@ -15,7 +15,7 @@
     "transport": "SSE",
     "note": "Runs a catalog flow by its id. Keyed only."
   },
-  "note": "Every tool here runs Cypher against the whisper.security graph, so every tool is KEYED (supply X-API-Key). The keyless half of Whisper is the non-Cypher identity tools (verify/rdap), which are not in this catalog. Tools with _playgroundTryable:true can be sampled without a key in the rate-limited playground (100/window). Each tool carries _docPath/_docsUrl (docsBase + docPath) for its documentation page; flow tools carry _flowRun (POST the slug to the run endpoint, SSE stream).",
+  "note": "The whisper.security graph is two-tier. Tools with _requiresKey:false (== _access \"keyless\", the direct read procedures: assess, identify, explain, variants, walk, origins, history, ...) run WITHOUT a key, rate-limited (~100/window) with real answers; send X-API-Key to lift the limit. Tools with _requiresKey:true (raw Cypher, the multi-step flows, and submit) need X-API-Key. Each tool carries _docPath/_docsUrl (docsBase + docPath) for its documentation page; flow tools carry _flowRun (POST the slug to the run endpoint, SSE stream).",
   "tools": [
     {
       "name": "whisper_anycastDnsRootSovereignty",
@@ -723,8 +723,8 @@
           "v": "api.openai.com"
         }
       },
-      "_access": "keyed",
-      "_requiresKey": true,
+      "_access": "keyless",
+      "_requiresKey": false,
       "_playgroundTryable": true,
       "_resultColumns": [
         "host",
@@ -759,8 +759,8 @@
           "v": "8.8.8.8"
         }
       },
-      "_access": "keyed",
-      "_requiresKey": true,
+      "_access": "keyless",
+      "_requiresKey": false,
       "_playgroundTryable": true,
       "_resultColumns": [
         "host",
@@ -794,8 +794,8 @@
           "v": "paypal.com"
         }
       },
-      "_access": "keyed",
-      "_requiresKey": true,
+      "_access": "keyless",
+      "_requiresKey": false,
       "_playgroundTryable": true,
       "_resultColumns": [
         "variant",
@@ -827,8 +827,8 @@
           "v": "cloudflare.com"
         }
       },
-      "_access": "keyed",
-      "_requiresKey": true,
+      "_access": "keyless",
+      "_requiresKey": false,
       "_playgroundTryable": true,
       "_resultColumns": [
         "coverage",
@@ -862,8 +862,8 @@
         },
         "altForm": "CALL explain($v) is the same engine, bare form (no whisper. prefix, no YIELD); it returns the fuller column set: indicator, type, available, cached, found, score, level, explanation, factors, sources, advisory."
       },
-      "_access": "keyed",
-      "_requiresKey": true,
+      "_access": "keyless",
+      "_requiresKey": false,
       "_playgroundTryable": true,
       "_resultColumns": [
         "indicator",
@@ -896,8 +896,8 @@
           "v": "www.foo.co.uk"
         }
       },
-      "_access": "keyed",
-      "_requiresKey": true,
+      "_access": "keyless",
+      "_requiresKey": false,
       "_playgroundTryable": true,
       "_resultColumns": [
         "apex"
@@ -926,8 +926,8 @@
           "v": "paypal.com"
         }
       },
-      "_access": "keyed",
-      "_requiresKey": true,
+      "_access": "keyless",
+      "_requiresKey": false,
       "_playgroundTryable": true,
       "_resultColumns": [
         "found",
@@ -961,8 +961,8 @@
           "v": "cloudflare.com"
         }
       },
-      "_access": "keyed",
-      "_requiresKey": true,
+      "_access": "keyless",
+      "_requiresKey": false,
       "_playgroundTryable": true,
       "_resultColumns": [
         "ip",
@@ -997,8 +997,8 @@
         },
         "altForm": "CALL whisper.history.whois($v) YIELD queryTime, createDate, updateDate, expiryDate, registrar, registrant, country, nameServers gives the same timeline with a WHOIS-only projection (drops indicator/type/cached)."
       },
-      "_access": "keyed",
-      "_requiresKey": true,
+      "_access": "keyless",
+      "_requiresKey": false,
       "_playgroundTryable": true,
       "_resultColumns": [
         "indicator",
@@ -1037,8 +1037,8 @@
           "v": "paypal.com"
         }
       },
-      "_access": "keyed",
-      "_requiresKey": true,
+      "_access": "keyless",
+      "_requiresKey": false,
       "_playgroundTryable": true,
       "_resultColumns": [
         "queryTime",
@@ -1074,8 +1074,8 @@
           "v": "AS-CLOUDFLARE"
         }
       },
-      "_access": "keyed",
-      "_requiresKey": true,
+      "_access": "keyless",
+      "_requiresKey": false,
       "_playgroundTryable": true,
       "_resultColumns": [
         "asSetName",
@@ -1106,8 +1106,8 @@
           "v": "185.220.101.33"
         }
       },
-      "_access": "keyed",
-      "_requiresKey": true,
+      "_access": "keyless",
+      "_requiresKey": false,
       "_playgroundTryable": true,
       "_resultColumns": [
         "indicator",
@@ -1133,8 +1133,8 @@
         "cypher": "CALL db.schema()",
         "params": {}
       },
-      "_access": "keyed",
-      "_requiresKey": true,
+      "_access": "keyless",
+      "_requiresKey": false,
       "_playgroundTryable": true,
       "_resultColumns": [
         "type",

@@ -7,15 +7,30 @@ Every entry is **provenance-backed**: its shape (columns, arguments) was taken f
 
 ---
 
-## Keyed by design
+## Two tiers: taste it keyless, build on a key
 
-The whisper.security graph is a **keyed** surface: supply your API key (unlimited). It's Cypher; Cypher needs a key. Every entry in this catalog runs Cypher, so every entry is keyed. That's the whole rule.
+Both tiers are honest.
+
+**Keyless taste (no key).** The single-request **direct read verbs** (`identify`, `assess`, `explain`, `variants`, `walk`, `origins`, `history`, and the rest of the 13 marked `access: "keyless"` / `playgroundTryable: true`) run with **no key at all** and return real answers. One line, zero setup:
 
 ```bash
+# keyless: no auth header, real answer, rate-limited
 curl -s https://graph.whisper.security/api/query \
   -H 'content-type: application/json' \
-  -H 'X-API-Key: whisper-…' \
-  --data '{"query":"CALL whisper.identify([$v]) YIELD host, vendor_id, canonical_name, category, roles, host_class, band","parameters":{"v":"api.openai.com"}}'
+  --data '{"query":"CALL whisper.assess([$v]) YIELD host, label, band","parameters":{"v":"8.8.8.8"}}'
+# -> {"columns":["host","label","band"],"rows":[{"host":"8.8.8.8","label":"benign-allowlisted","band":"INFO"}], ...}
+```
+
+It is a **rate-limited taste**: **100 requests / window** (`x-ratelimit-limit: 100`; every request, even a refusal, spends one). It works, then it `429`s, then it resets. Perfect for a first look or a light check; **not something to build a production system on.**
+
+**Keyed (your API key).** Send `X-API-Key` and the rate limit lifts (unlimited), and you unlock the rest of the graph: **raw Cypher**, the **multi-step investigation flows**, and the `whisper.submit` write channel.
+
+```bash
+# keyed: unlimited, plus raw Cypher + the flows + submit
+curl -s https://graph.whisper.security/api/query \
+  -H 'content-type: application/json' \
+  -H 'X-API-Key: whisper_live_…' \
+  --data '{"query":"CALL whisper.identify([$v]) YIELD host, vendor_id, canonical_name","parameters":{"v":"api.openai.com"}}'
 ```
 
 The **response envelope** is always `{columns, rows, statistics}`, and **rows are objects keyed by column name**:
@@ -31,29 +46,19 @@ The **response envelope** is always `{columns, rows, statistics}`, and **rows ar
 }
 ```
 
-With your key, queries are **unlimited**.
-
-## Playground: a taste, not a tier
-
-You *can* run the read verbs without a key, but only as a **rate-limited playground**: **100 requests / window** (`x-ratelimit-limit: 100`; every request, even a refusal, spends one). It works, then it `429`s, then it resets. It exists to give new users and agents a taste of the graph in one line, **never to build a product on.** If it is Cypher, it needs a key.
-
-Only the single-request **direct read verbs** are practical to sample this way (marked `playgroundTryable: true`). The multi-step flows are dozens of `CALL`s each (a single deep flow would exhaust the playground cap mid-run), and writes are keyed always. So `playgroundTryable` is `false` for every flow and for `whisper.submit`.
-
-## The genuine keyless half of Whisper
-
-Whisper *is* two-tier, but the keyless half is **not** in this catalog. It's the non-Cypher **identity** tools: `verify` (prove an agent/domain identity) and `rdap` (IP-anchored registration lookup). Those make no graph query, so they carry no key and no rate cap. This catalog is the **graph** surface (Cypher), and the graph is keyed.
-
-| | Playground (no key) | Keyed (your API key) |
+| | Keyless taste (no key) | Keyed (your API key) |
 |---|---|---|
-| **What** | A *taste* of the direct read verbs: identify, assess, explain, origins, history, … | The whole graph: every read verb, every multi-step investigation flow, and the `whisper.submit` write channel |
+| **What** | The direct read verbs: identify, assess, explain, variants, walk, origins, history, … | Everything: every read verb, every multi-step investigation flow, and the `whisper.submit` write channel |
 | **Limit** | **100 requests / window** (every request, even a refusal, spends one) | **Unlimited** |
-| **For** | Kicking the tyres; a new agent's first look | Production. Everything real. |
+| **For** | A first look; a light check; kicking the tyres | Production. Everything real. |
 
-A keyless **write** attempt is refused with a clear message (`a write channel requires an attributable API key … preserves K-anonymity`); it fails helpfully, never silently.
+Why keyless is only the direct reads: a multi-step **flow** is dozens of `CALL`s (one deep flow would exhaust the 100/window cap mid-run), and **writes** must be attributable, so `whisper.submit` is keyed always. A keyless write is refused with a clear message (`a write channel requires an attributable API key … preserves K-anonymity`); it fails helpfully, never silently.
+
+> Whisper has a second keyless surface outside this catalog: the non-Cypher **identity** tools `verify` (prove an agent/domain identity) and `rdap` (IP-anchored registration lookup), which carry no key and no rate cap at all. This catalog is the **graph** (Cypher) surface.
 
 ## What's in the catalog
 
-`catalog.json` holds **29 entries**, **all keyed** (it is Cypher). **13** are `playgroundTryable` single-request direct reads; the other **16** are the multi-step flows and the one write channel (`whisper.submit`). Two execution modes:
+`catalog.json` holds **29 entries**, two-tier: **13 keyless** single-request direct reads (`access: "keyless"`, tastable with no key) and **16 keyed** (the multi-step flows and the one write channel, `whisper.submit`). Two execution modes:
 
 - **`direct`**: a single Cypher `CALL` you can run against the endpoint as-is. The entry carries the exact `cypher`, its `params`, and the `columns` it returns.
 - **`flow`**: a multi-step read investigation (e.g. `attack-surface`, `indicator`, `typosquat`) orchestrated by a `run_workflow` runner over the same endpoint. The entry carries the anchor step's live columns and the analyst prompt. Flows are runnable via the top-level `graph.flowRun` contract: `POST` the entry's `id` as `slug` (plus `inputs`/`params`) to the run endpoint with `X-API-Key`; the result streams back over SSE.
@@ -75,7 +80,7 @@ Each entry:
     "cypher": "CALL whisper.identify([$v]) YIELD host, vendor_id, canonical_name, category, roles, host_class, band",
     "params": { "v": "api.openai.com" }
   },
-  "access": "keyed",
+  "access": "keyless",
   "playgroundTryable": true,
   "columns": ["host","vendor_id","canonical_name","category","roles","host_class","band"],
   "prompt": "Identify the vendor and operator roles behind api.openai.com…",
@@ -95,7 +100,7 @@ node scripts/validate.mjs   # access-correctness + hygiene gate (non-zero on fai
 node scripts/generate.mjs   # emits docs/CATALOG.md, mcp-tools.json, sdk-methods.json
 ```
 
-- **[`mcp-tools.json`](./mcp-tools.json)**: every graph query as an MCP tool descriptor (JSON-Schema `inputSchema` per tool), each marked `_requiresKey: true` and carrying `_playgroundTryable` so a surface can offer a "try without a key" hint on the direct-read verbs, plus `_docPath`/`_docsUrl` docs links and, on flow tools, the ready-to-POST `_flowRun` contract.
+- **[`mcp-tools.json`](./mcp-tools.json)**: every graph query as an MCP tool descriptor (JSON-Schema `inputSchema` per tool), each marked `_requiresKey` (`false` for the 13 keyless direct-read verbs, `true` for the flows + `submit`) so a surface can offer a real "try without a key" path, plus `_docPath`/`_docsUrl` docs links and, on flow tools, the ready-to-POST `_flowRun` contract.
 - **[`sdk-methods.json`](./sdk-methods.json)**: one method stub per entry (name, params, cypher/runVia/flowRun, returns, `requiresKey`, `playgroundTryable`, `docPath`/`docsUrl`) for SDK codegen.
 - **[`docs/CATALOG.md`](./docs/CATALOG.md)**: the human-readable table.
 

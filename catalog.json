@@ -6,9 +6,9 @@
     "request": "POST application/json  {\"query\":\"<cypher>\",\"parameters\":{...}}",
     "envelope": "{columns,rows,statistics}",
     "rowsShape": "rows are OBJECTS keyed by column name",
-    "auth": "API key required for all queries (X-API-Key)",
-    "keyed": "unlimited",
-    "playground": "keyless is a rate-limited taste only (100/window); not for production. If it is Cypher it needs a key",
+    "auth": "Two tiers. The direct read procedures (assess, identify, explain, variants, walk, origins, history, ...) serve KEYLESS: no key, rate-limited (~100/window), real production-shaped answers. Raw Cypher, the multi-step flows, and submit are KEYED (X-API-Key). Sending your key on any call lifts the rate limit.",
+    "keyed": "Unlimited with X-API-Key. Required for raw Cypher, the multi-step flows, and submit; optional (lifts the rate limit) on the keyless read procedures.",
+    "playground": "The keyless direct read procedures are real value with zero setup, only rate-limited (~100/window). Add your key for unlimited use and for raw Cypher + flows + submit.",
     "docsBase": "https://www.whisper.security",
     "flowRun": {
       "endpoint": "https://console.whisper.security/api/gallery/run",
@@ -871,7 +871,7 @@
           "v": "api.openai.com"
         }
       },
-      "access": "keyed",
+      "access": "keyless",
       "playgroundTryable": true,
       "minTier": "free",
       "resultShape": "table",
@@ -921,7 +921,7 @@
           "v": "8.8.8.8"
         }
       },
-      "access": "keyed",
+      "access": "keyless",
       "playgroundTryable": true,
       "minTier": "free",
       "resultShape": "table",
@@ -965,7 +965,7 @@
           "v": "paypal.com"
         }
       },
-      "access": "keyed",
+      "access": "keyless",
       "playgroundTryable": true,
       "minTier": "free",
       "resultShape": "table",
@@ -1009,7 +1009,7 @@
           "v": "cloudflare.com"
         }
       },
-      "access": "keyed",
+      "access": "keyless",
       "playgroundTryable": true,
       "minTier": "free",
       "resultShape": "table",
@@ -1058,7 +1058,7 @@
         },
         "altForm": "CALL explain($v) is the same engine, bare form (no whisper. prefix, no YIELD); it returns the fuller column set: indicator, type, available, cached, found, score, level, explanation, factors, sources, advisory."
       },
-      "access": "keyed",
+      "access": "keyless",
       "playgroundTryable": true,
       "minTier": "free",
       "resultShape": "table",
@@ -1101,7 +1101,7 @@
           "v": "www.foo.co.uk"
         }
       },
-      "access": "keyed",
+      "access": "keyless",
       "playgroundTryable": true,
       "minTier": "free",
       "resultShape": "table",
@@ -1140,7 +1140,7 @@
           "v": "paypal.com"
         }
       },
-      "access": "keyed",
+      "access": "keyless",
       "playgroundTryable": true,
       "minTier": "free",
       "resultShape": "table",
@@ -1186,7 +1186,7 @@
           "v": "cloudflare.com"
         }
       },
-      "access": "keyed",
+      "access": "keyless",
       "playgroundTryable": true,
       "minTier": "free",
       "resultShape": "table",
@@ -1232,7 +1232,7 @@
         },
         "altForm": "CALL whisper.history.whois($v) YIELD queryTime, createDate, updateDate, expiryDate, registrar, registrant, country, nameServers gives the same timeline with a WHOIS-only projection (drops indicator/type/cached)."
       },
-      "access": "keyed",
+      "access": "keyless",
       "playgroundTryable": true,
       "minTier": "free",
       "resultShape": "table",
@@ -1282,7 +1282,7 @@
           "v": "paypal.com"
         }
       },
-      "access": "keyed",
+      "access": "keyless",
       "playgroundTryable": true,
       "minTier": "free",
       "resultShape": "table",
@@ -1328,7 +1328,7 @@
           "v": "AS-CLOUDFLARE"
         }
       },
-      "access": "keyed",
+      "access": "keyless",
       "playgroundTryable": true,
       "minTier": "free",
       "resultShape": "table",
@@ -1369,7 +1369,7 @@
           "v": "185.220.101.33"
         }
       },
-      "access": "keyed",
+      "access": "keyless",
       "playgroundTryable": true,
       "minTier": "free",
       "resultShape": "table",
@@ -1404,7 +1404,7 @@
         "cypher": "CALL db.schema()",
         "params": {}
       },
-      "access": "keyed",
+      "access": "keyless",
       "playgroundTryable": true,
       "minTier": "free",
       "resultShape": "table",

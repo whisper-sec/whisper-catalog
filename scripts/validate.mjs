@@ -2,18 +2,20 @@
 // validate.mjs: assert the catalog is well-formed and access-correct.
 // Dependency-free (Node stdlib only). Exits non-zero on the first failing rule set.
 //
-// Kaveh's rule: if it is Cypher, it needs an API key. Always. The whisper.security
-// graph is a KEYED surface: every catalog entry runs Cypher, so every entry is keyed
-// (the key is unlimited). Keyless is only a rate-limited playground (100/window), a
-// taste for new users/agents, never production. The genuine keyless half of Whisper is
-// the non-Cypher identity ops (verify/rdap), which are not in this catalog.
+// The whisper.security graph is TWO-TIER. The single-request direct READ procedures
+// serve KEYLESS (no key, rate-limited ~100/window, real answers) -- that is
+// access:"keyless", and it is exactly the set of playground-tryable entries. Raw
+// Cypher, the multi-step flows, and the write verb (submit) are KEYED (X-API-Key).
+// Sending a key on any call lifts the rate limit. So access:"keyless" iff
+// playgroundTryable. (The non-Cypher identity ops verify/rdap are a separate keyless
+// surface, not in this catalog.)
 //
 // Rules enforced:
 //   1. Every entry has id / title / purpose / prompt and provenance === true.
-//   2. Every entry's access is "keyed" (it is Cypher).
+//   2. Every entry's access is "keyless" iff it is playground-tryable, else "keyed".
 //   3. Every entry declares a boolean `playgroundTryable`, and it is coherent:
-//      only single-request direct READ verbs may be playground-tryable (a multi-step
-//      flow or the write verb would burn the keyless cap, so it is never tryable).
+//      only single-request direct READ verbs may be keyless/playground-tryable (a
+//      multi-step flow or the write verb is keyed, so it is never tryable).
 //   4. The whisper.agents control plane is NEVER exposed as a catalog entry.
 //   5. No forbidden tokens (secrets / internal infra / AI attribution) anywhere.
 //   6. ids are unique.
@@ -82,19 +84,23 @@ for (const e of catalog.entries ?? []) {
   if (CONTROL_VERBS.some(v => execBlob.includes(v)))
     errors.push(`${at}: exposes forbidden control-plane verb (whisper.agents)`);
 
-  // Rule 2: it is Cypher, so it is keyed. Every entry, always.
-  if (e.access !== 'keyed') errors.push(`${at}: access must be "keyed" (it is Cypher) but got ${e.access}`);
+  // Rule 2: access is "keyless" for the direct read procedures, "keyed" for flows/raw/submit,
+  // and it must agree with playgroundTryable (keyless iff tryable).
+  if (e.access !== 'keyless' && e.access !== 'keyed')
+    errors.push(`${at}: access must be "keyless" or "keyed" but got ${e.access}`);
+  else if ((e.access === 'keyless') !== (e.playgroundTryable === true))
+    errors.push(`${at}: access "${e.access}" disagrees with playgroundTryable ${e.playgroundTryable} (keyless iff playground-tryable)`);
 
-  // Rule 3: playgroundTryable is a boolean, and coherent with Kaveh's rule.
+  // Rule 3: playgroundTryable is a boolean, and coherent -- only single-request direct
+  // READ verbs are keyless/playground-tryable (a flow or the write verb is keyed).
   if (typeof e.playgroundTryable !== 'boolean') {
     errors.push(`${at}: playgroundTryable must be a boolean (got ${typeof e.playgroundTryable})`);
   } else if (e.playgroundTryable) {
-    // Only single-request direct READ verbs can be sampled in the 100/window playground.
     const isWrite = WRITE_VERBS.some(v => execBlob.includes(v));
     if (mode !== 'direct')
-      errors.push(`${at}: playgroundTryable=true but exec.mode is "${mode}": a multi-step flow would burn the keyless cap`);
+      errors.push(`${at}: playgroundTryable=true but exec.mode is "${mode}": a multi-step flow is keyed, never keyless`);
     if (isWrite)
-      errors.push(`${at}: playgroundTryable=true but it is a write verb: writes are keyed, never playground-tryable`);
+      errors.push(`${at}: playgroundTryable=true but it is a write verb: writes are keyed, never keyless`);
   }
 }
 
@@ -112,5 +118,5 @@ if (errors.length) {
 }
 
 const keyed = catalog.entries.filter(e => e.access === 'keyed').length;
-const tryable = catalog.entries.filter(e => e.playgroundTryable).length;
-console.log(`validate: PASS. ${catalog.entries.length} entries, all keyed (${keyed}); playground-tryable direct reads=${tryable}`);
+const keyless = catalog.entries.filter(e => e.access === 'keyless').length;
+console.log(`validate: PASS. ${catalog.entries.length} entries, two-tier: ${keyless} keyless read procs + ${keyed} keyed (flows/raw/submit).`);

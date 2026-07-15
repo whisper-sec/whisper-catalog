@@ -1,7 +1,7 @@
 {
   "generatedAt": "2026-07-14T12:17:30Z",
   "endpoint": "https://graph.whisper.security/api/query",
-  "auth": "API key required for all queries (X-API-Key)",
+  "auth": "Two tiers. The direct read procedures (assess, identify, explain, variants, walk, origins, history, ...) serve KEYLESS: no key, rate-limited (~100/window), real production-shaped answers. Raw Cypher, the multi-step flows, and submit are KEYED (X-API-Key). Sending your key on any call lifts the rate limit.",
   "docsBase": "https://www.whisper.security",
   "flowRun": {
     "endpoint": "https://console.whisper.security/api/gallery/run",
@@ -608,8 +608,8 @@
     },
     {
       "method": "identify",
-      "access": "keyed",
-      "requiresKey": true,
+      "access": "keyless",
+      "requiresKey": false,
       "playgroundTryable": true,
       "mode": "direct",
       "params": [
@@ -638,8 +638,8 @@
     },
     {
       "method": "assess",
-      "access": "keyed",
-      "requiresKey": true,
+      "access": "keyless",
+      "requiresKey": false,
       "playgroundTryable": true,
       "mode": "direct",
       "params": [
@@ -667,8 +667,8 @@
     },
     {
       "method": "variants",
-      "access": "keyed",
-      "requiresKey": true,
+      "access": "keyless",
+      "requiresKey": false,
       "playgroundTryable": true,
       "mode": "direct",
       "params": [
@@ -694,8 +694,8 @@
     },
     {
       "method": "walk",
-      "access": "keyed",
-      "requiresKey": true,
+      "access": "keyless",
+      "requiresKey": false,
       "playgroundTryable": true,
       "mode": "direct",
       "params": [
@@ -722,8 +722,8 @@
     },
     {
       "method": "explain",
-      "access": "keyed",
-      "requiresKey": true,
+      "access": "keyless",
+      "requiresKey": false,
       "playgroundTryable": true,
       "mode": "direct",
       "params": [
@@ -750,8 +750,8 @@
     },
     {
       "method": "pslTldplusone",
-      "access": "keyed",
-      "requiresKey": true,
+      "access": "keyless",
+      "requiresKey": false,
       "playgroundTryable": true,
       "mode": "direct",
       "params": [
@@ -774,8 +774,8 @@
     },
     {
       "method": "pslAffiliation",
-      "access": "keyed",
-      "requiresKey": true,
+      "access": "keyless",
+      "requiresKey": false,
       "playgroundTryable": true,
       "mode": "direct",
       "params": [
@@ -803,8 +803,8 @@
     },
     {
       "method": "origins",
-      "access": "keyed",
-      "requiresKey": true,
+      "access": "keyless",
+      "requiresKey": false,
       "playgroundTryable": true,
       "mode": "direct",
       "params": [
@@ -832,8 +832,8 @@
     },
     {
       "method": "history",
-      "access": "keyed",
-      "requiresKey": true,
+      "access": "keyless",
+      "requiresKey": false,
       "playgroundTryable": true,
       "mode": "direct",
       "params": [
@@ -866,8 +866,8 @@
     },
     {
       "method": "historyWhois",
-      "access": "keyed",
-      "requiresKey": true,
+      "access": "keyless",
+      "requiresKey": false,
       "playgroundTryable": true,
       "mode": "direct",
       "params": [
@@ -897,8 +897,8 @@
     },
     {
       "method": "asset",
-      "access": "keyed",
-      "requiresKey": true,
+      "access": "keyless",
+      "requiresKey": false,
       "playgroundTryable": true,
       "mode": "direct",
       "params": [
@@ -923,8 +923,8 @@
     },
     {
       "method": "lookupTorRelay",
-      "access": "keyed",
-      "requiresKey": true,
+      "access": "keyless",
+      "requiresKey": false,
       "playgroundTryable": true,
       "mode": "direct",
       "params": [
@@ -952,8 +952,8 @@
     },
     {
       "method": "dbSchema",
-      "access": "keyed",
-      "requiresKey": true,
+      "access": "keyless",
+      "requiresKey": false,
       "playgroundTryable": true,
       "mode": "direct",
       "params": [],

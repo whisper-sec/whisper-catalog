@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 // generate.mjs: emit derived surfaces from catalog.json. Dependency-free.
 //   docs/CATALOG.md   human table: id | purpose | access | inputs
-//   mcp-tools.json    every graph query as an MCP tool descriptor, all KEYED
+//   mcp-tools.json    every graph query as an MCP tool descriptor
 //   sdk-methods.json  method stubs (one per entry) for SDK codegen
 //
-// The whisper.security graph is a KEYED surface: it is Cypher, so every tool here
-// needs an API key. The two-tier split lives at the WHISPER level: the genuine
-// keyless half is the non-Cypher identity ops (verify/rdap), which are NOT in this
-// catalog. `playgroundTryable` is carried through so a surface can show a
-// "try without a key" hint on the single-request direct-read verbs (rate-limited
-// playground, 100/window).
+// The whisper.security graph is TWO-TIER. The single-request direct READ procedures
+// (assess, identify, explain, variants, walk, origins, history, ...) serve KEYLESS:
+// no key, rate-limited (~100/window), real answers -- this is `access:"keyless"`,
+// which equals `playgroundTryable`. Raw Cypher, the multi-step FLOWS, and the write
+// verb (submit) are KEYED (`access:"keyed"`, X-API-Key). Sending a key on any call
+// lifts the rate limit. So `requiresKey === !playgroundTryable`.
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -56,7 +56,7 @@ The portable, provenance-backed catalog of \`whisper.security\` graph queries an
 - **Docs base:** \`${catalog.graph.docsBase}\` (each entry's docs link = docsBase + docPath)
 - **Flow run:** \`${catalog.graph.flowRun.method} ${catalog.graph.flowRun.endpoint}\` (header \`${catalog.graph.flowRun.auth}\`, body \`{"slug":"<flow id>","inputs":{},"params":{}}\`, ${catalog.graph.flowRun.transport} stream). ${catalog.graph.flowRun.note}
 
-${entries.length} entries, **all keyed** (it is Cypher; Cypher needs a key). ${tryableN} are \`playground · tryable\` (single-request direct reads you can *taste* keyless within the 100/window playground).
+${entries.length} entries, two-tier: **${tryableN} keyless** direct read procedures (no key, rate-limited ~100/window, real answers -- add a key to lift the limit) and **${entries.length - tryableN} keyed** (raw Cypher, the multi-step flows, and submit need \`X-API-Key\`).
 
 | id | purpose | access | inputs | docs |
 |----|---------|--------|--------|------|
@@ -66,7 +66,7 @@ _Generated at ${catalog.generatedAt}. Every entry is provenance-backed (live-pro
 `;
 writeFileSync(join(root, 'docs', 'CATALOG.md'), md);
 
-// ---- mcp-tools.json (every graph query, all KEYED; playground hint carried through) ----
+// ---- mcp-tools.json (every graph query; keyless read procs + keyed flows/raw/submit) ----
 const mcpTools = entries.map(e => {
   const properties = {};
   const required = [];
@@ -86,9 +86,9 @@ const mcpTools = entries.map(e => {
     description: `${e.purpose} ${e.why ?? ''}`.trim(),
     inputSchema: { type: 'object', properties, required },
     _exec: e.exec,
-    _access: e.access,               // always "keyed" (it is Cypher)
-    _requiresKey: true,              // graph tools need an API key
-    _playgroundTryable: e.playgroundTryable, // sample keyless in the 100/window playground?
+    _access: e.access,               // "keyless" (direct read proc) | "keyed" (flow/raw/submit)
+    _requiresKey: !e.playgroundTryable, // keyless read procs work without a key (rate-limited); the rest need X-API-Key
+    _playgroundTryable: e.playgroundTryable, // keyless-capable? (== access "keyless")
     _resultColumns: e.columns,
     _docPath: e.docPath,
     _docsUrl: docsUrl(e),
@@ -101,15 +101,15 @@ writeFileSync(join(root, 'mcp-tools.json'), JSON.stringify({
   auth: catalog.graph.auth,
   docsBase: catalog.graph.docsBase,
   flowRun: catalog.graph.flowRun,
-  note: 'Every tool here runs Cypher against the whisper.security graph, so every tool is KEYED (supply X-API-Key). The keyless half of Whisper is the non-Cypher identity tools (verify/rdap), which are not in this catalog. Tools with _playgroundTryable:true can be sampled without a key in the rate-limited playground (100/window). Each tool carries _docPath/_docsUrl (docsBase + docPath) for its documentation page; flow tools carry _flowRun (POST the slug to the run endpoint, SSE stream).',
+  note: 'The whisper.security graph is two-tier. Tools with _requiresKey:false (== _access "keyless", the direct read procedures: assess, identify, explain, variants, walk, origins, history, ...) run WITHOUT a key, rate-limited (~100/window) with real answers; send X-API-Key to lift the limit. Tools with _requiresKey:true (raw Cypher, the multi-step flows, and submit) need X-API-Key. Each tool carries _docPath/_docsUrl (docsBase + docPath) for its documentation page; flow tools carry _flowRun (POST the slug to the run endpoint, SSE stream).',
   tools: mcpTools,
 }, null, 2) + '\n');
 
 // ---- sdk-methods.json (method stubs for every entry) ----
 const sdkMethods = entries.map(e => ({
   method: camel(e.id),
-  access: e.access,                  // always "keyed"
-  requiresKey: true,                 // it is Cypher
+  access: e.access,                  // "keyless" (direct read proc) | "keyed" (flow/raw/submit)
+  requiresKey: !e.playgroundTryable, // keyless read procs work without a key (rate-limited); the rest need X-API-Key
   playgroundTryable: e.playgroundTryable,
   mode: e.exec.mode,
   params: e.inputs.map(i => ({ name: i.paramName, kind: i.kind, required: i.default === undefined && !i.optional, default: i.default ?? null })),
@@ -130,4 +130,4 @@ writeFileSync(join(root, 'sdk-methods.json'), JSON.stringify({
   methods: sdkMethods,
 }, null, 2) + '\n');
 
-console.log(`generate: wrote docs/CATALOG.md, mcp-tools.json (${mcpTools.length} keyed graph tools, ${tryableN} playground-tryable), sdk-methods.json (${sdkMethods.length} methods)`);
+console.log(`generate: wrote docs/CATALOG.md, mcp-tools.json (${mcpTools.length} graph tools: ${tryableN} keyless read procs + ${mcpTools.length - tryableN} keyed), sdk-methods.json (${sdkMethods.length} methods)`);

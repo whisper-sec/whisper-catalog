@@ -6,13 +6,13 @@ The portable, provenance-backed catalog of `whisper.security` graph queries and 
 - **Endpoint:** `https://graph.whisper.security/api/query`
 - **Request:** `POST application/json  {"query":"<cypher>","parameters":{...}}`
 - **Response envelope:** `{columns,rows,statistics}`, where rows are OBJECTS keyed by column name.
-- **Auth:** API key required for all queries (X-API-Key)
-- **Keyed:** unlimited
-- **Playground:** keyless is a rate-limited taste only (100/window); not for production. If it is Cypher it needs a key
+- **Auth:** Two tiers. The direct read procedures (assess, identify, explain, variants, walk, origins, history, ...) serve KEYLESS: no key, rate-limited (~100/window), real production-shaped answers. Raw Cypher, the multi-step flows, and submit are KEYED (X-API-Key). Sending your key on any call lifts the rate limit.
+- **Keyed:** Unlimited with X-API-Key. Required for raw Cypher, the multi-step flows, and submit; optional (lifts the rate limit) on the keyless read procedures.
+- **Playground:** The keyless direct read procedures are real value with zero setup, only rate-limited (~100/window). Add your key for unlimited use and for raw Cypher + flows + submit.
 - **Docs base:** `https://www.whisper.security` (each entry's docs link = docsBase + docPath)
 - **Flow run:** `POST https://console.whisper.security/api/gallery/run` (header `X-API-Key`, body `{"slug":"<flow id>","inputs":{},"params":{}}`, SSE stream). Runs a catalog flow by its id. Keyed only.
 
-29 entries, **all keyed** (it is Cypher; Cypher needs a key). 13 are `playground · tryable` (single-request direct reads you can *taste* keyless within the 100/window playground).
+29 entries, two-tier: **13 keyless** direct read procedures (no key, rate-limited ~100/window, real answers -- add a key to lift the limit) and **16 keyed** (raw Cypher, the multi-step flows, and submit need `X-API-Key`).
 
 | id | purpose | access | inputs | docs |
 |----|---------|--------|--------|------|
@@ -31,19 +31,19 @@ The portable, provenance-backed catalog of `whisper.security` graph queries and 
 | `route-health` | Profile a network or address block into a full routing and reachability health card. | keyed | `target` (e.g. "1.1.1.0/24") | [/docs/recipes/bgp-routing](https://www.whisper.security/docs/recipes/bgp-routing) |
 | `subdomain-takeover` | Find subdomains that point at abandoned services an attacker could claim. | keyed | `value` (e.g. "github.com") | [/docs/recipes/pentest-recon](https://www.whisper.security/docs/recipes/pentest-recon) |
 | `typosquat` | Find registered look-alikes of your brand and check which ones are dangerous. | keyed | `domain` (e.g. "paypal.com") | [/docs/recipes/brand-protection](https://www.whisper.security/docs/recipes/brand-protection) |
-| `identify` | Name the vendor and operator role behind a host or IP in one call. | keyed · playground | `v` (e.g. "api.openai.com") | [/docs/whisper-graph/procedures/identify](https://www.whisper.security/docs/whisper-graph/procedures/identify) |
-| `assess` | Get a labelled threat posture for a host or IP - malicious, benign, or unknown. | keyed · playground | `v` (e.g. "8.8.8.8") | [/docs/whisper-graph/procedures](https://www.whisper.security/docs/whisper-graph/procedures) |
-| `variants` | Generate look-alike domain variants of a brand and see which are registered. | keyed · playground | `v` (e.g. "paypal.com") | [/docs/whisper-graph/procedures/variants](https://www.whisper.security/docs/whisper-graph/procedures/variants) |
-| `walk` | Walk the graph to the nearest known vendors behind a host, with the channel and confidence. | keyed · playground | `v` (e.g. "cloudflare.com") | [/docs/whisper-graph/procedures](https://www.whisper.security/docs/whisper-graph/procedures) |
-| `explain` | Score an indicator against the threat feeds and explain exactly why. | keyed · playground | `v` (e.g. "paypal.com") | [/docs/whisper-graph/procedures/explain](https://www.whisper.security/docs/whisper-graph/procedures/explain) |
-| `psl-tldplusone` | Reduce any hostname to its registrable apex (eTLD+1) via the Public Suffix List. | keyed · playground | `v` (e.g. "www.foo.co.uk") | [/docs/whisper-graph/procedures/helpers](https://www.whisper.security/docs/whisper-graph/procedures/helpers) |
-| `psl-affiliation` | Check whether a domain is a PSL private-section suffix and who submitted it. | keyed · playground | `v` (e.g. "paypal.com") | [/docs/whisper-graph/procedures/helpers](https://www.whisper.security/docs/whisper-graph/procedures/helpers) |
-| `origins` | Find the real origin IPs behind a CDN-fronted domain, ranked by confidence. | keyed · playground | `v` (e.g. "cloudflare.com") | [/docs/whisper-graph/procedures/origins](https://www.whisper.security/docs/whisper-graph/procedures/origins) |
-| `history` | Get the full historical WHOIS timeline for a domain. | keyed · playground | `v` (e.g. "paypal.com") | [/docs/whisper-graph/procedures/history](https://www.whisper.security/docs/whisper-graph/procedures/history) |
-| `history-whois` | Get the WHOIS-only historical timeline for a domain. | keyed · playground | `v` (e.g. "paypal.com") | [/docs/whisper-graph/procedures/history](https://www.whisper.security/docs/whisper-graph/procedures/history) |
-| `asset` | List the member ASNs of an AS-SET macro. | keyed · playground | `v` (e.g. "AS-CLOUDFLARE") | [/docs/whisper-graph/procedures](https://www.whisper.security/docs/whisper-graph/procedures) |
-| `lookup-tor-relay` | Check whether an IP is a known Tor exit relay. | keyed · playground | `v` (e.g. "185.220.101.33") | [/docs/whisper-graph/procedures/helpers](https://www.whisper.security/docs/whisper-graph/procedures/helpers) |
-| `db-schema` | List every node and relationship type in the graph with counts and examples. | keyed · playground | _none_ | [/docs/whisper-graph/schema](https://www.whisper.security/docs/whisper-graph/schema) |
+| `identify` | Name the vendor and operator role behind a host or IP in one call. | keyless · playground | `v` (e.g. "api.openai.com") | [/docs/whisper-graph/procedures/identify](https://www.whisper.security/docs/whisper-graph/procedures/identify) |
+| `assess` | Get a labelled threat posture for a host or IP - malicious, benign, or unknown. | keyless · playground | `v` (e.g. "8.8.8.8") | [/docs/whisper-graph/procedures](https://www.whisper.security/docs/whisper-graph/procedures) |
+| `variants` | Generate look-alike domain variants of a brand and see which are registered. | keyless · playground | `v` (e.g. "paypal.com") | [/docs/whisper-graph/procedures/variants](https://www.whisper.security/docs/whisper-graph/procedures/variants) |
+| `walk` | Walk the graph to the nearest known vendors behind a host, with the channel and confidence. | keyless · playground | `v` (e.g. "cloudflare.com") | [/docs/whisper-graph/procedures](https://www.whisper.security/docs/whisper-graph/procedures) |
+| `explain` | Score an indicator against the threat feeds and explain exactly why. | keyless · playground | `v` (e.g. "paypal.com") | [/docs/whisper-graph/procedures/explain](https://www.whisper.security/docs/whisper-graph/procedures/explain) |
+| `psl-tldplusone` | Reduce any hostname to its registrable apex (eTLD+1) via the Public Suffix List. | keyless · playground | `v` (e.g. "www.foo.co.uk") | [/docs/whisper-graph/procedures/helpers](https://www.whisper.security/docs/whisper-graph/procedures/helpers) |
+| `psl-affiliation` | Check whether a domain is a PSL private-section suffix and who submitted it. | keyless · playground | `v` (e.g. "paypal.com") | [/docs/whisper-graph/procedures/helpers](https://www.whisper.security/docs/whisper-graph/procedures/helpers) |
+| `origins` | Find the real origin IPs behind a CDN-fronted domain, ranked by confidence. | keyless · playground | `v` (e.g. "cloudflare.com") | [/docs/whisper-graph/procedures/origins](https://www.whisper.security/docs/whisper-graph/procedures/origins) |
+| `history` | Get the full historical WHOIS timeline for a domain. | keyless · playground | `v` (e.g. "paypal.com") | [/docs/whisper-graph/procedures/history](https://www.whisper.security/docs/whisper-graph/procedures/history) |
+| `history-whois` | Get the WHOIS-only historical timeline for a domain. | keyless · playground | `v` (e.g. "paypal.com") | [/docs/whisper-graph/procedures/history](https://www.whisper.security/docs/whisper-graph/procedures/history) |
+| `asset` | List the member ASNs of an AS-SET macro. | keyless · playground | `v` (e.g. "AS-CLOUDFLARE") | [/docs/whisper-graph/procedures](https://www.whisper.security/docs/whisper-graph/procedures) |
+| `lookup-tor-relay` | Check whether an IP is a known Tor exit relay. | keyless · playground | `v` (e.g. "185.220.101.33") | [/docs/whisper-graph/procedures/helpers](https://www.whisper.security/docs/whisper-graph/procedures/helpers) |
+| `db-schema` | List every node and relationship type in the graph with counts and examples. | keyless · playground | _none_ | [/docs/whisper-graph/schema](https://www.whisper.security/docs/whisper-graph/schema) |
 | `submit` | Contribute an indicator observation or feedback back into the graph (requires an API key). | keyed | `kind` (e.g. "indicator"), `identifier_kind` (e.g. "ip"), `value` (e.g. "203.0.113.5"), `observation_id`, `confidence`, `first_seen`, `provenance`, `query`, `results`, `comment`, `severity`, `v` | [/docs/cypher-api](https://www.whisper.security/docs/cypher-api) |
 
 _Generated at 2026-07-14T12:17:30Z. Every entry is provenance-backed (live-probed shape)._
